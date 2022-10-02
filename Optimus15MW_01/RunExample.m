@@ -16,10 +16,8 @@ copyfile(['..\OpenFAST\',FASTexeFile],FASTexeFile)
 copyfile(['..\OpenFAST\',FASTmapFile],FASTmapFile)
 
 %% Run FB
-ManipulateTXTFile('ROSCO_v2d6.IN','1 ! FlagLAC','0 ! FlagLAC');     % disable LAC
 dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
 movefile([SimulationName,'.outb'],[SimulationName,'_FB.outb'])      % store results
-
 
 %% Clean up
 delete(FASTexeFile)
@@ -55,4 +53,3 @@ ylabel('PtfmPitch [deg]');
 
 xlabel('time [s]')
 linkaxes(MyAxes,'x');
-xlim([10 150])
