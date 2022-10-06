@@ -8,24 +8,52 @@ close all;
 clc;
 addpath('..\MatlabFunctions')
 
+%% Run FB without platform damper
+
+% Disable the damper. Should have some kind of test here in case the damper
+% is already disabled it will not change.
+ManipulateTXTFile('ROSCO_v2d6.IN','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+
 % Copy the adequate OpenFAST version to the example folder
 FASTexeFile     = 'openfast_x64.exe';
 FASTmapFile     = 'MAP_x64.dll';
-SimulationName  = 'IEA-15-240-RWT-UMaineSemi';
 copyfile(['..\OpenFAST\',FASTexeFile],FASTexeFile)
 copyfile(['..\OpenFAST\',FASTmapFile],FASTmapFile)
 
-%% Run FB
+% Run the simulation
+SimulationName  = 'IEA-15-240-RWT-UMaineSemiNoDamper';
 dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
 movefile([SimulationName,'.outb'],[SimulationName,'_FB.outb'])      % store results
 
-%% Clean up
+% read in data
+FB_no_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
+
+% Clean up
+delete(FASTexeFile)
+delete(FASTmapFile)
+
+%% Run FB with damper
+
+% Enable the damper
+ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+
+% Copy again the adequate OpenFAST version to the example folder
+FASTexeFile     = 'openfast_x64.exe';
+FASTmapFile     = 'MAP_x64.dll';
+copyfile(['..\OpenFAST\',FASTexeFile],FASTexeFile)
+copyfile(['..\OpenFAST\',FASTmapFile],FASTmapFile)
+% Run the simulation
+SimulationName  = 'IEA-15-240-RWT-UMaineSemiWithDamper';
+dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
+movefile([SimulationName,'.outb'],[SimulationName,'_FB.outb'])      % store results
+% read in data
+FB_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
+% Clean up
 delete(FASTexeFile)
 delete(FASTmapFile)
 
 %% Comparison
-% read in data
-FB              = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
+
 
 % Plot         
 ScreenSize = get(0,'ScreenSize');
@@ -33,22 +61,26 @@ figure('Name','Simulation results','position',[.1 .1 .8 .8].*ScreenSize([3,4,3,4
 
 MyAxes(1) = subplot(4,1,1);
 hold on; grid on; box on
-plot(FB.Time,       FB.Wind1VelX);
+plot(FB_no_damper.Time,       FB_no_damper.Wind1VelX);
+plot(FB_damper.Time,       FB_damper.Wind1VelX);
 ylabel('[m/s]');
 
 MyAxes(2) = subplot(4,1,2);
 hold on; grid on; box on
-plot(FB.Time,       FB.BldPitch1);
+plot(FB_no_damper.Time,       FB_no_damper.BldPitch1);
+plot(FB_damper.Time,       FB_damper.BldPitch1);
 ylabel('BldPitch1 [deg]');
 
 MyAxes(3) = subplot(4,1,3);
 hold on; grid on; box on
-plot(FB.Time,       FB.RotSpeed);
+plot(FB_no_damper.Time,       FB_no_damper.RotSpeed);
+plot(FB_damper.Time,       FB_damper.RotSpeed);
 ylabel('RotSpeed [rpm]');
 
 MyAxes(4) = subplot(4,1,4);
 hold on; grid on; box on
-plot(FB.Time,       FB.PtfmPitch);
+plot(FB_no_damper.Time,       FB_no_damper.PtfmPitch);
+plot(FB_damper.Time,       FB_damper.PtfmPitch);
 ylabel('PtfmPitch [deg]');
 
 xlabel('time [s]')
