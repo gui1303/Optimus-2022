@@ -76,6 +76,7 @@ hold on; grid on; box on
 plot(FB_no_damper.Time,       FB_no_damper.RotSpeed);
 plot(FB_damper.Time,       FB_damper.RotSpeed);
 ylabel('RotSpeed [rpm]');
+legend ('Platform Damper off', 'Platform damper on')
 
 MyAxes(4) = subplot(4,1,4);
 hold on; grid on; box on

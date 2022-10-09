@@ -1,10 +1,10 @@
 ------- OpenFAST INPUT FILE ------------------------------------------- 
-LAC Test IEA15MW_02: IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floating platform with perfect wind preview from a single point lidar system
+IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floating platform
 ---------------------- SIMULATION CONTROL -------------------------------------- 
 False                  Echo        - Echo input data to <RootName>.ech (flag) 
 "FATAL"                AbortLevel  - Error level when simulation should abort (string) {"WARNING", "SEVERE", "FATAL"} 
 150.0                   TMax        - Total run time (s) 
-0.0125                 DT          - Integration time step (s)  
+0.025                  DT          - Integration time step (s)  
 2                      InterpOrder - Interpolation order for input/output time history (-) {1=linear, 2=quadratic} 
 0                      NumCrctn    - Number of correction iterations (-) {0=explicit calculation, i.e., no corrections} 
 99999.0                DT_UJac     - Time between calls to get Jacobians (s) 
@@ -18,20 +18,29 @@ False                  Echo        - Echo input data to <RootName>.ech (flag)
       0   CompSub         - Compute sub-structural dynamics (switch) {0=None; 1=SubDyn; 2=External Platform MCKF}
       3   CompMooring     - Compute mooring system (switch) {0=None; 1=MAP++; 2=FEAMooring; 3=MoorDyn; 4=OrcaFlex} 
       0   CompIce         - Compute ice loads (switch) {0=None; 1=IceFloe; 2=IceDyn} 
-      1                   - CompLidar   - Compute Lidar Module (switch) {0 = Off, 1 = On}		
+      0   MHK             - MHK turbine type (switch) {0=Not an MHK turbine; 1=Fixed MHK turbine; 2=Floating MHK turbine}
+---------------------- ENVIRONMENTAL CONDITIONS --------------------------------
+9.81                   Gravity     - Gravitational acceleration (m/s^2)
+1.225                  AirDens     - Air density (kg/m^3)
+1025                   WtrDens     - Water density (kg/m^3)
+1.464e-05              KinVisc     - Kinematic viscosity of working fluid (m^2/s)
+335                    SpdSound    - Speed of sound in working fluid (m/s)
+103500                 Patm        - Atmospheric pressure (Pa) [used only for an MHK turbine cavitation check]
+1700                   Pvap        - Vapour pressure of working fluid (Pa) [used only for an MHK turbine cavitation check]
+200                     WtrDpth     - Water depth (m)
+0                      MSL2SWL     - Offset between still-water level and mean sea level (m) [positive upward]
 ---------------------- INPUT FILES --------------------------------------------- 
 "IEA-15-240-RWT-UMaineSemi_ElastoDyn.dat"    EDFile          - Name of file containing ElastoDyn input parameters (quoted string) 
-"none"                 BDBldFile(1) - Name of file containing BeamDyn input parameters for blade 1 (quoted string) 
-"none"                 BDBldFile(2) - Name of file containing BeamDyn input parameters for blade 2 (quoted string) 
-"none"                 BDBldFile(3) - Name of file containing BeamDyn input parameters for blade 3 (quoted string) 
-"IEA-15-240-RWT_InflowFile.dat"    					InflowFile      - Name of file containing inflow wind input parameters (quoted string) 
-"../IEA-15-240-RWT/IEA-15-240-RWT_AeroDyn15.dat"  	AeroFile     	- Name of file containing aerodynamic input parameters (quoted string) 
-"IEA-15-240-RWT-UMaineSemi_ServoDyn.dat"    		ServoFile       - Name of file containing control and electrical-drive input parameters (quoted string) 
-"IEA-15-240-RWT-UMaineSemi_HydroDyn.dat"      		HydroFile       - Name of file containing hydrodynamic input parameters (quoted string) 
-"none"                 SubFile     - Name of file containing sub-structural input parameters (quoted string) 
+""                     BDBldFile(1) - Name of file containing BeamDyn input parameters for blade 1 (quoted string) 
+""                     BDBldFile(2) - Name of file containing BeamDyn input parameters for blade 2 (quoted string) 
+""                     BDBldFile(3) - Name of file containing BeamDyn input parameters for blade 3 (quoted string) 
+"IEA-15-240-RWT-UMaineSemi_InflowFile.dat"    InflowFile      - Name of file containing inflow wind input parameters (quoted string) 
+"IEA-15-240-RWT-UMaineSemi_AeroDyn15.dat"  AeroFile     - Name of file containing aerodynamic input parameters (quoted string) 
+"IEA-15-240-RWT-UMaineSemi_ServoDyn.dat"    ServoFile       - Name of file containing control and electrical-drive input parameters (quoted string) 
+"IEA-15-240-RWT-UMaineSemi_HydroDyn.dat"      HydroFile       - Name of file containing hydrodynamic input parameters (quoted string) 
+"none"                 SubFile         - Name of file containing sub-structural input parameters (quoted string) 
 "IEA-15-240-RWT-UMaineSemi_MoorDyn.dat"      MooringFile     - Name of file containing mooring system input parameters (quoted string) 
-"none"                 IceFile     - Name of file containing ice input parameters (quoted string) 
-"SinglePoint_LidarFile.dat"	 						SWELidarFile	- Name of file containing SWE Lidar input parameters (quoted string)
+"none"                 IceFile         - Name of file containing ice input parameters (quoted string) 
 ---------------------- OUTPUT -------------------------------------------------- 
 False                  SumPrint    - Print summary data to "<RootName>.sum" (flag) 
 10.0                   SttsTime    - Amount of time between screen status messages (s) 
