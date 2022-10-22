@@ -12,7 +12,7 @@ addpath('..\MatlabFunctions')
 
 % Disable the damper. Should have some kind of test here in case the damper
 % is already disabled it will not change.
-ManipulateTXTFile('ROSCO_v2d6.IN','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+ManipulateTXTFile('ROSCO_v2d6.IN','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
 
 % Copy the adequate OpenFAST version to the example folder
 FASTexeFile     = 'openfast_x64.exe';
@@ -35,7 +35,7 @@ delete(FASTmapFile)
 %% Run FB with damper
 
 % Enable the damper
-ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
 
 % Copy again the adequate OpenFAST version to the example folder
 FASTexeFile     = 'openfast_x64.exe';
