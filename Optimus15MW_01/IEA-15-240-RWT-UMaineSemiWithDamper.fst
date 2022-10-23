@@ -3,7 +3,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 ---------------------- SIMULATION CONTROL -------------------------------------- 
 False                  Echo        - Echo input data to <RootName>.ech (flag) 
 "FATAL"                AbortLevel  - Error level when simulation should abort (string) {"WARNING", "SEVERE", "FATAL"} 
-150.0                   TMax        - Total run time (s) 
+500.0                   TMax        - Total run time (s) 
 0.025                  DT          - Integration time step (s)  
 2                      InterpOrder - Interpolation order for input/output time history (-) {1=linear, 2=quadratic} 
 0                      NumCrctn    - Number of correction iterations (-) {0=explicit calculation, i.e., no corrections} 
@@ -20,11 +20,11 @@ False                  Echo        - Echo input data to <RootName>.ech (flag)
       0   CompIce         - Compute ice loads (switch) {0=None; 1=IceFloe; 2=IceDyn} 
       0   MHK             - MHK turbine type (switch) {0=Not an MHK turbine; 1=Fixed MHK turbine; 2=Floating MHK turbine}
 ---------------------- ENVIRONMENTAL CONDITIONS --------------------------------
-9.81                   Gravity     - Gravitational acceleration (m/s^2)
+9.80665                   Gravity     - Gravitational acceleration (m/s^2)
 1.225                  AirDens     - Air density (kg/m^3)
 1025                   WtrDens     - Water density (kg/m^3)
-1.464e-05              KinVisc     - Kinematic viscosity of working fluid (m^2/s)
-335                    SpdSound    - Speed of sound in working fluid (m/s)
+ 1.477551020408163e-05             KinVisc     - Kinematic viscosity of working fluid (m^2/s)
+ 3.400000000000000e+02                    SpdSound    - Speed of sound in working fluid (m/s)
 103500                 Patm        - Atmospheric pressure (Pa) [used only for an MHK turbine cavitation check]
 1700                   Pvap        - Vapour pressure of working fluid (Pa) [used only for an MHK turbine cavitation check]
 200                     WtrDpth     - Water depth (m)

@@ -67,22 +67,23 @@ ylabel('[m/s]');
 
 MyAxes(2) = subplot(4,1,2);
 hold on; grid on; box on
-plot(FB_no_damper.Time,       FB_no_damper.BldPitch1);
-plot(FB_damper.Time,       FB_damper.BldPitch1);
+plot(FB_no_damper.Time,       FB_no_damper.BldPitch1, 'r');
+plot(FB_damper.Time,       FB_damper.BldPitch1, 'b' );
 ylabel('BldPitch1 [deg]');
 
 MyAxes(3) = subplot(4,1,3);
 hold on; grid on; box on
-plot(FB_no_damper.Time,       FB_no_damper.RotSpeed);
-plot(FB_damper.Time,       FB_damper.RotSpeed);
+plot(FB_no_damper.Time,       FB_no_damper.RotSpeed, 'r');
+plot(FB_damper.Time,       FB_damper.RotSpeed, 'b');
 ylabel('RotSpeed [rpm]');
 legend ('Platform Damper off', 'Platform damper on')
 
 MyAxes(4) = subplot(4,1,4);
 hold on; grid on; box on
-plot(FB_no_damper.Time,       FB_no_damper.PtfmPitch);
-plot(FB_damper.Time,       FB_damper.PtfmPitch);
+plot(FB_no_damper.Time,       FB_no_damper.PtfmPitch, 'r');
+plot(FB_damper.Time,       FB_damper.PtfmPitch, 'b');
 ylabel('PtfmPitch [deg]');
+
 
 xlabel('time [s]')
 linkaxes(MyAxes,'x');
