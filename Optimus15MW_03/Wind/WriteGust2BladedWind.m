@@ -7,7 +7,7 @@ FileName = 'EOG_URef_18';
 
 %% Preprocessing
 % time
-T           = 160;                  % [s]   simulation length
+T           = 500;                  % [s]   simulation length
 dt          = 1/80;               	% [s]   simulation time step
 
 % wind
