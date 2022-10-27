@@ -17,8 +17,10 @@ ManipulateTXTFile('ROSCO_v2d6.IN','3                   ! Fl_Mode           - Flo
 % Copy the adequate OpenFAST version to the example folder
 FASTexeFile     = 'openfast_x64.exe';
 FASTmapFile     = 'MAP_x64.lib';
+TurbulentWindFile = 'TurbSim_2.bts';
 copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
 copyfile(['..\OpenFAST modified controller\',FASTmapFile],FASTmapFile)
+copyfile(['D:\OneDrive\Hochschule Flensburg\3. semester\Project\Turbulent wind file\',TurbulentWindFile],TurbulentWindFile)
 
 % Run the simulation
 SimulationName  = 'IEA-15-240-RWT-UMaineSemiNoDamper';
@@ -31,6 +33,7 @@ FB_no_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
 % Clean up
 delete(FASTexeFile)
 delete(FASTmapFile)
+delete(TurbulentWindFile)
 
 %% Run FB with damper
 
@@ -42,6 +45,7 @@ FASTexeFile     = 'openfast_x64.exe';
 FASTmapFile     = 'MAP_x64.lib';
 copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
 copyfile(['..\OpenFAST modified controller\',FASTmapFile],FASTmapFile)
+copyfile(['D:\OneDrive\Hochschule Flensburg\3. semester\Project\Turbulent wind file\',TurbulentWindFile],TurbulentWindFile)
 % Run the simulation
 SimulationName  = 'IEA-15-240-RWT-UMaineSemiWithDamper';
 dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
@@ -51,7 +55,7 @@ FB_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
 % Clean up
 delete(FASTexeFile)
 delete(FASTmapFile)
-
+delete(TurbulentWindFile)
 %% Comparison
 
 
