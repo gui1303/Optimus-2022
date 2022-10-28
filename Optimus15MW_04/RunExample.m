@@ -90,3 +90,12 @@ ylabel('PtfmPitch [deg]');
 
 xlabel('time [s]')
 linkaxes(MyAxes,'x');
+
+[px,freq] = pwelch(FB_damper.PtfmPitch);
+plot(freq,px);
+set(gca,'xScale','log')
+set(gca,'yScale','log')
+hold on
+[px2,freq2] = pwelch(FB_damper.RotSpeed);
+plot(freq2,px2)
+legend ('Platform pitch', 'Rotor speed')
