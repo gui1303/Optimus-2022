@@ -1,12 +1,9 @@
 % LAC Test IEA15MW_03:  IEA 15 MW + Realistic wind preview
 % Purpose:
-% Here, we use a realistic wind preview to demonstrate that the collective
-% pitch feedforward controller together with the correct filtering provides
-% the reduction in rotor speed variation as predicted by the linear model
-% and the coherence. In this example, we assume frozen turbulence, only one 
-% 3D turbulence field (y,z,t) at rotor plane is generated.
+% Here, we use a realistic wind preview to compare the behaviour with the
+% platform damper on and off
 % Result:
-% Change in rotor speed standard deviation:  -19.6 %
+% 
 % Authors:
 % David Schlipf, Feng Guo
 % Copyright (c) 2022 Flensburg University of Applied Sciences, WETI
@@ -24,7 +21,7 @@ Seed_vec            = [1:nSample];              % [-]           vector of seeds
 
 % Parameters postprocessing (can be adjusted, but will provide different results)
 t_start             = 10;                       % [-]           ignore data before for STD and spectra
-nDataPerBlock       = 2^14;                     % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
+nDataPerBlock       = 570*40;                     % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
 vWindow             = hamming(nDataPerBlock);   % [-]           window for estimation
 nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
 nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
@@ -33,13 +30,16 @@ nOverlap            = [];                       % [-]           samples of overl
 TurbSimExeFile      = 'TurbSim_x64.exe';
 FASTexeFile         = 'openfast_x64.exe';
 FASTmapFile         = 'MAP_x64.lib';
-SimulationName      = 'IEA-15-240-RWT-UMaineSemiWithDamper';
+SimulationName      = 'IEA-15-240-RWT-UMaineSemiNoDamper';
 TurbSimTemplateFile = 'TurbSim2aInputFileTemplateIEA15MW.inp';
 if ~exist('TurbulentWind','dir')
     mkdir TurbulentWind
 end
 if ~exist('SimulationResults','dir')
-    mkdir SimulationResults
+    mkdir SimulationResultsWithDamper
+end
+if ~exist('SimulationResults','dir')
+    mkdir SimulationResultsNoDamper
 end
 %% Preprocessing: generate turbulent wind field
     
@@ -61,7 +61,10 @@ end
 % Clean up
 delete(['TurbulentWind\',TurbSimExeFile])
 
-%% Processing: run simulations
+%% Processing: run simulations with platform damper
+
+ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+
 
 % Copy the adequate OpenFAST version to the example folder
 copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
@@ -76,92 +79,141 @@ for iSample = 1:nSample
     ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat','MyFilenameRoot',WindFileRoot);
     
     % Run FB    
-    FASTresultFile      = ['SimulationResults\URef_18_Seed_',num2str(Seed,'%02d'),'.outb'];
+    FASTresultFile      = ['SimulationResultsWithDamper\URef_18_Seed_WithDamper',num2str(Seed,'%02d'),'.outb'];
     if ~exist(FASTresultFile,'file')    
-        %ManipulateTXTFile('ROSCO_15MP.IN','1 ! FlagLAC','0 ! FlagLAC'); % disable LAC
         dos([FASTexeFile,' ',SimulationName,'.fst']);
         movefile([SimulationName,'.outb'],FASTresultFile)
     end
    
-%     Run FB+FF    
-%     FASTresultFile      = ['SimulationResults\URef_18_Seed_',num2str(Seed,'%02d'),'_FlagLAC_1.outb'];
-%     if ~exist(FASTresultFile,'file')    
-%         ManipulateTXTFile('ROSCO_15MP.IN','0 ! FlagLAC','1 ! FlagLAC'); % enable LAC
-%         dos([FASTexeFile,' ',SimulationName,'.fst']);
-%         movefile([SimulationName,'.outb'],FASTresultFile)
-%     end    
-%     
     % Reset the InflowWind file again
     ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat',WindFileRoot,'MyFilenameRoot');
 end
-
 
 % Clean up
 delete(FASTexeFile)
 delete(FASTmapFile)
 
-%% Postprocessing: evaluate data
 
+%% Processing: run simulations without platform damper
+
+ManipulateTXTFile('ROSCO_v2d6.IN','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+
+% Copy the adequate OpenFAST version to the example folder
+copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
+copyfile(['..\OpenFAST modified controller\',FASTmapFile],FASTmapFile)
+
+% Simulate with all wind fields
+for iSample = 1:nSample
+    
+    % Adjust the InflowWind file
+    Seed                = Seed_vec(iSample);
+    WindFileRoot        = ['TurbulentWind\URef_18_Seed_',num2str(Seed,'%02d')];
+    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat','MyFilenameRoot',WindFileRoot);
+    
+    % Run FB    
+    FASTresultFile      = ['SimulationResultsNoDamper\URef_18_Seed_NoDamper',num2str(Seed,'%02d'),'.outb'];
+    if ~exist(FASTresultFile,'file')    
+        dos([FASTexeFile,' ',SimulationName,'.fst']);
+        movefile([SimulationName,'.outb'],FASTresultFile)
+    end
+   
+    % Reset the InflowWind file again
+    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat',WindFileRoot,'MyFilenameRoot');
+end
+
+% Clean up
+delete(FASTexeFile)
+delete(FASTmapFile)
+
+%% Postprocessing: evaluate data with damper
+%S_PtfmPitch_FB_est = NaN(nSample);
 for iSample = 1:nSample    
 
     % Load data
     Seed                = Seed_vec(iSample);
     
-    FASTresultFile      = ['SimulationResults\URef_18_Seed_',num2str(Seed,'%02d'),'.outb'];
-    FB                  = ReadFASTbinaryIntoStruct(FASTresultFile);
-%     FASTresultFile      = ['SimulationResults\URef_18_Seed_',num2str(Seed,'%02d'),'_FlagLAC_1.outb'];
-%     FBFF                = ReadFASTbinaryIntoStruct(FASTresultFile);
+    FASTresultFile      = ['SimulationResultsWithDamper\URef_18_Seed_WithDamper',num2str(Seed,'%02d'),'.outb'];
+    FB_damper                  = ReadFASTbinaryIntoStruct(FASTresultFile);
 
     % Plot time results
-    figure('Name',['Seed ',num2str(Seed)])
-    hold on; grid on; box on
-    plot(FB.Time,       FB.Wind1VelX);
-%     plot(FBFF.Time,     FBFF.RotSpeed);
-    ylabel('RotSpeed [rpm]');
-   % legend('feedback only','feedback-feedforward')
-    xlabel('time [s]')
+    %figure('Name',['Seed ',num2str(Seed)])
+    %hold on; grid on; box on
+    %plot(FB_damper.Time,       FB_damper.Wind1VelX);
+    %ylabel('RotSpeed [rpm]');
+    %xlabel('time [s]')
 
     % Estimate spectra
     Fs                                      = 80; % [Hz]  sampling frequenzy, same as in *.fst
-    [S_PtfmPitch_FB_est(iSample,:),f_est]	= pwelch(detrend(FB.BldPitch1  (FB.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-%     [S_RotSpeed_FBFF_est(iSample,:),~]      = pwelch(detrend(FBFF.RotSpeed(FBFF.Time>t_start)),vWindow,nOverlap,nFFT,Fs);
-
-    % Calculate standard deviation
-    %STD_PtfmPitch_FB  (iSample)              = std(FB.RotSpeed  (FB.Time  >t_start));
-%     STD_RotSpeed_FBFF(iSample)              = std(FBFF.RotSpeed(FBFF.Time>t_start));
-
+   [S_BldPitch1_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.BldPitch1  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_RotSpeed_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.RotSpeed  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_PtfmPitch_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.PtfmPitch  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    
 end
 
-% Calculate rotor speed spectra by analytical model
-% 
-% steady state operating point for 
-% theta_OP                 = 0.2714;
-% Omega_OP                 = 0.7920;
-% v_0_OP                   = 18;
-% f_delay                  = 0.025;
-% ROSCOInFileName          = 'ROSCO_15MP.IN';
-% RotorPerformanceFile     = 'Cp_Ct_Cq.IEA15MW.txt';
-% LidarInputFileName       = 'MolasNL400_1G_LidarFile.dat';
-% LDPInputFileName         = 'LDP_NL400.IN';
-% SpectralModelFileName    = 'LidarRotorSpectra_IEA15MW_MolasNL400.mat';
-% AnalyticalModel          = AnalyticalRotorSpeedSpectrum(v_0_OP,theta_OP,Omega_OP,f_delay,...
-%     ROSCOInFileName,RotorPerformanceFile,LidarInputFileName,LDPInputFileName,SpectralModelFileName);
 
-% Plot spectra
-figure('Name','Simulation results')
+%% Postprocessing: evaluate data without damper
+%S_PtfmPitch_FB_est = NaN(nSample);
+for iSample = 1:nSample    
+
+    % Load data
+    Seed                = Seed_vec(iSample);
+    
+    FASTresultFile      = ['SimulationResultsNoDamper\URef_18_Seed_NoDamper',num2str(Seed,'%02d'),'.outb'];
+    FB_no_damper        = ReadFASTbinaryIntoStruct(FASTresultFile);
+
+    % Plot time results
+    %figure('Name',['Seed ',num2str(Seed)])
+    %hold on; grid on; box on
+    %plot(FB_no_damper.Time,       FB_no_damper.Wind1VelX);
+    %ylabel('RotSpeed [rpm]');
+    %xlabel('time [s]')
+
+    % Estimate spectra
+    Fs                                      = 80; % [Hz]  sampling frequenzy, same as in *.fst
+    [S_BldPitch1_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.BldPitch1  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    [S_RotSpeed_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.RotSpeed  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    [S_PtfmPitch_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.PtfmPitch  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    
+end
+
+%% Plot spectra
+figure('Name','Simulation results - platform pitch')
 
 hold on; grid on; box on
-% p1 = plot(AnalyticalModel.f,AnalyticalModel.S_Omega_r_FB.*(radPs2rpm(1))^2,'--','Color',[0 0.4470 0.7410]);
-% p2 = plot(AnalyticalModel.f,AnalyticalModel.S_Omega_r_FF.*(radPs2rpm(1))^2,'--','Color',[0.8500 0.3250 0.0980]);
-p3 = plot(f_est ,mean(S_PtfmPitch_FB_est,1),'-','Color',[0 0.4470 0.7410]);
-% p4 = plot(f_est ,mean(S_RotSpeed_FBFF_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+p1 = plot(f_est ,mean(S_PtfmPitch_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
+p2 = plot(f_est ,mean(S_PtfmPitch_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
 
 set(gca,'Xscale','log')
 set(gca,'Yscale','log')
-xlabel('frequency [Hz] ')
-ylabel('Spectra Blade Pitch [(rpm)^2Hz^{-1}]')
-% legend([p1 p2 p3 p4],'FB-only Analytical','FBFF Analytical','FB-only Estimated','FBFF Estimated')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Platform Pitch [(rpm)^2Hz^{-1}]') 
+legend('Platform damper ON','Platform damper OFF')
+hold off 
 
-% display results
-% fprintf('Change in rotor speed standard deviation:  %4.1f %%\n',...
-%     (mean(STD_RotSpeed_FBFF)/mean(STD_RotSpeed_FB)-1)*100)       
+
+figure('Name','Simulation results - rotor speed')
+
+hold on; grid on; box on
+p1 = plot(f_est ,mean(S_RotSpeed_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
+p2 = plot(f_est ,mean(S_RotSpeed_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+
+set(gca,'Xscale','log')
+set(gca,'Yscale','log')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Rotor Speed [(rpm)^2Hz^{-1}]') 
+legend('Platform damper ON','Platform damper OFF')
+hold off
+
+
+figure('Name','Simulation results - blade pitch')
+
+hold on; grid on; box on
+p1 = plot(f_est ,mean(S_BldPitch1_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
+p2 = plot(f_est ,mean(S_BldPitch1_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+
+set(gca,'Xscale','log')
+set(gca,'Yscale','log')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Blade Pitch [(rpm)^2Hz^{-1}]') 
+legend('Platform damper ON','Platform damper OFF')
+hold off
