@@ -20,8 +20,8 @@ nSample             = 6;                        % [-]           number of stocha
 Seed_vec            = [1:nSample];              % [-]           vector of seeds
 
 % Parameters postprocessing (can be adjusted, but will provide different results)
-t_start             = 10;                       % [-]           ignore data before for STD and spectra
-nDataPerBlock       = 570*40;                     % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
+t_start             = 30;                       % [-]           ignore data before for STD and spectra
+nDataPerBlock       = 600*40;                     % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
 vWindow             = hamming(nDataPerBlock);   % [-]           window for estimation
 nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
 nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
@@ -127,6 +127,7 @@ delete(FASTmapFile)
 
 %% Postprocessing: evaluate data with damper
 %S_PtfmPitch_FB_est = NaN(nSample);
+figure('Name','Time results - damper ON')
 for iSample = 1:nSample    
 
     % Load data
@@ -136,14 +137,14 @@ for iSample = 1:nSample
     FB_damper                  = ReadFASTbinaryIntoStruct(FASTresultFile);
 
     % Plot time results
-    %figure('Name',['Seed ',num2str(Seed)])
-    %hold on; grid on; box on
-    %plot(FB_damper.Time,       FB_damper.Wind1VelX);
-    %ylabel('RotSpeed [rpm]');
-    %xlabel('time [s]')
+    hold on; grid on; box on
+    plot(FB_damper.Time,       FB_damper.RotSpeed);
+    ylabel('Rotor speed');
+    xlabel('time [s]')
+    xlim([0 200]);
 
     % Estimate spectra
-    Fs                                      = 80; % [Hz]  sampling frequenzy, same as in *.fst
+    Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
    [S_BldPitch1_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.BldPitch1  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
    [S_RotSpeed_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.RotSpeed  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
    [S_PtfmPitch_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.PtfmPitch  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
@@ -153,6 +154,7 @@ end
 
 %% Postprocessing: evaluate data without damper
 %S_PtfmPitch_FB_est = NaN(nSample);
+figure('Name','Time results - damper OFF')
 for iSample = 1:nSample    
 
     % Load data
@@ -163,13 +165,14 @@ for iSample = 1:nSample
 
     % Plot time results
     %figure('Name',['Seed ',num2str(Seed)])
-    %hold on; grid on; box on
-    %plot(FB_no_damper.Time,       FB_no_damper.Wind1VelX);
-    %ylabel('RotSpeed [rpm]');
-    %xlabel('time [s]')
+    hold on; grid on; box on
+    plot(FB_no_damper.Time,       FB_no_damper.RotSpeed);
+    ylabel('Rotor speed');
+    xlabel('time [s]')
+    xlim([0 200])
 
     % Estimate spectra
-    Fs                                      = 80; % [Hz]  sampling frequenzy, same as in *.fst
+    Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
     [S_BldPitch1_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.BldPitch1  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
     [S_RotSpeed_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.RotSpeed  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
     [S_PtfmPitch_FBNoDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_no_damper.PtfmPitch  (FB_no_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
