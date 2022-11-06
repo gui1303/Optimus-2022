@@ -35,10 +35,13 @@ TurbSimTemplateFile = 'TurbSim2aInputFileTemplateIEA15MW.inp';
 if ~exist('TurbulentWind','dir')
     mkdir TurbulentWind
 end
-if ~exist('SimulationResults','dir')
+if ~exist('SimulationResultsWithDamper','dir')
     mkdir SimulationResultsWithDamper
 end
-if ~exist('SimulationResults','dir')
+if ~exist('SimulationResultsWithDamperReducedGain','dir')
+    mkdir SimulationResultsWithDamperReducedGain
+end
+if ~exist('SimulationResultsNoDamper','dir')
     mkdir SimulationResultsNoDamper
 end
 %% Preprocessing: generate turbulent wind field
@@ -61,9 +64,12 @@ end
 % Clean up
 delete(['TurbulentWind\',TurbSimExeFile])
 
-%% Processing: run simulations with platform damper
+%% Processing: run simulations with platform damper - original gain
 
 ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+ManipulateTXTFile('ROSCO_v2d6.IN','-4.673225000       ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]','-9.34645000000      ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]'); 
+
+
 
 
 % Copy the adequate OpenFAST version to the example folder
@@ -94,9 +100,47 @@ delete(FASTexeFile)
 delete(FASTmapFile)
 
 
+
+%% Processing: run simulations with platform damper - reduced gain
+
+ManipulateTXTFile('ROSCO_v2d6.IN','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+ManipulateTXTFile('ROSCO_v2d6.IN','-9.34645000000      ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]','-4.673225000       ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]'); 
+
+
+% Copy the adequate OpenFAST version to the example folder
+copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
+copyfile(['..\OpenFAST modified controller\',FASTmapFile],FASTmapFile)
+
+% Simulate with all wind fields
+for iSample = 1:nSample
+    
+    % Adjust the InflowWind file
+    Seed                = Seed_vec(iSample);
+    WindFileRoot        = ['TurbulentWind\URef_18_Seed_',num2str(Seed,'%02d')];
+    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat','MyFilenameRoot',WindFileRoot);
+    
+    % Run FB    
+    FASTresultFile      = ['SimulationResultsWithDamperReducedGain\URef_18_Seed_WithDamperReducedGain',num2str(Seed,'%02d'),'.outb'];
+    if ~exist(FASTresultFile,'file')    
+        dos([FASTexeFile,' ',SimulationName,'.fst']);
+        movefile([SimulationName,'.outb'],FASTresultFile)
+    end
+   
+    % Reset the InflowWind file again
+    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat',WindFileRoot,'MyFilenameRoot');
+end
+
+% Clean up
+delete(FASTexeFile)
+delete(FASTmapFile)
+
+
 %% Processing: run simulations without platform damper
 
 ManipulateTXTFile('ROSCO_v2d6.IN','3                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+ManipulateTXTFile('ROSCO_v2d6.IN','-4.673225000       ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]','-9.34645000000      ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]'); 
+% Just in case, reset the gain to the original value
+
 
 % Copy the adequate OpenFAST version to the example folder
 copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
@@ -125,7 +169,7 @@ end
 delete(FASTexeFile)
 delete(FASTmapFile)
 
-%% Postprocessing: evaluate data with damper
+%% Postprocessing: evaluate data with damper and original gain
 %S_PtfmPitch_FB_est = NaN(nSample);
 figure('Name','Time results - damper ON')
 for iSample = 1:nSample    
@@ -134,7 +178,7 @@ for iSample = 1:nSample
     Seed                = Seed_vec(iSample);
     
     FASTresultFile      = ['SimulationResultsWithDamper\URef_18_Seed_WithDamper',num2str(Seed,'%02d'),'.outb'];
-    FB_damper                  = ReadFASTbinaryIntoStruct(FASTresultFile);
+    FB_damper           = ReadFASTbinaryIntoStruct(FASTresultFile);
 
     % Plot time results
     hold on; grid on; box on
@@ -148,6 +192,33 @@ for iSample = 1:nSample
    [S_BldPitch1_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.BldPitch1  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
    [S_RotSpeed_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.RotSpeed  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
    [S_PtfmPitch_FBWithDamper_est(iSample,:),f_est]	= pwelch(detrend(FB_damper.PtfmPitch  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    
+end
+
+%% Postprocessing: evaluate data with damper 50% of original gain
+%S_PtfmPitch_FB_est = NaN(nSample);
+
+figure('Name','Time results - damper ON - reduced gain')
+for iSample = 1:nSample    
+
+    % Load data
+    Seed                = Seed_vec(iSample);
+    
+    FASTresultFile           = ['SimulationResultsWithDamperReducedGain\URef_18_Seed_WithDamperReducedGain',num2str(Seed,'%02d'),'.outb'];
+    FB_damper_ReducedGain    = ReadFASTbinaryIntoStruct(FASTresultFile);
+
+    % Plot time results
+    hold on; grid on; box on
+    plot(FB_damper_ReducedGain.Time,       FB_damper_ReducedGain.RotSpeed);
+    ylabel('Rotor speed');
+    xlabel('time [s]')
+    xlim([0 200]);
+
+    % Estimate spectra
+    Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
+   [S_BldPitch1_FBWithDamperReducedGain_est(iSample,:),f_est]	= pwelch(detrend(FB_damper_ReducedGain.BldPitch1  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_RotSpeed_FBWithDamperReducedGain_est(iSample,:),f_est]	= pwelch(detrend(FB_damper_ReducedGain.RotSpeed  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_PtfmPitch_FBWithDamperReducedGain_est(iSample,:),f_est]	= pwelch(detrend(FB_damper_ReducedGain.PtfmPitch  (FB_damper.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
     
 end
 
@@ -184,13 +255,15 @@ figure('Name','Simulation results - platform pitch')
 
 hold on; grid on; box on
 p1 = plot(f_est ,mean(S_PtfmPitch_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
-p2 = plot(f_est ,mean(S_PtfmPitch_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+p2 = plot(f_est ,mean(S_PtfmPitch_FBWithDamperReducedGain_est,1),'-','Color',[0.4500 0.3250 0.0980]);
+p3 = plot(f_est ,mean(S_PtfmPitch_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+
 
 set(gca,'Xscale','log')
 set(gca,'Yscale','log')
 xlabel('Frequency [Hz] ')
 ylabel('Spectra Platform Pitch [(rpm)^2Hz^{-1}]') 
-legend('Platform damper ON','Platform damper OFF')
+legend('Platform damper ON','Platform damper ON - reduced gain','Platform damper OFF')
 hold off 
 
 
@@ -198,13 +271,14 @@ figure('Name','Simulation results - rotor speed')
 
 hold on; grid on; box on
 p1 = plot(f_est ,mean(S_RotSpeed_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
-p2 = plot(f_est ,mean(S_RotSpeed_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+p2 = plot(f_est ,mean(S_RotSpeed_FBWithDamperReducedGain_est,1),'-','Color',[0.4500 0.3250 0.0980]);
+p3 = plot(f_est ,mean(S_RotSpeed_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
 
 set(gca,'Xscale','log')
 set(gca,'Yscale','log')
 xlabel('Frequency [Hz] ')
 ylabel('Spectra Rotor Speed [(rpm)^2Hz^{-1}]') 
-legend('Platform damper ON','Platform damper OFF')
+legend('Platform damper ON','Platform damper ON - reduced gain','Platform damper OFF')
 hold off
 
 
@@ -212,11 +286,12 @@ figure('Name','Simulation results - blade pitch')
 
 hold on; grid on; box on
 p1 = plot(f_est ,mean(S_BldPitch1_FBWithDamper_est,1),'-','Color',[0 0.4470 0.7410]);
-p2 = plot(f_est ,mean(S_BldPitch1_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
+p2 = plot(f_est ,mean(S_BldPitch1_FBWithDamperReducedGain_est,1),'-','Color',[0.4500 0.3250 0.0980]);
+p3 = plot(f_est ,mean(S_BldPitch1_FBNoDamper_est,1),'-','Color',[0.8500 0.3250 0.0980]);
 
 set(gca,'Xscale','log')
 set(gca,'Yscale','log')
 xlabel('Frequency [Hz] ')
 ylabel('Spectra Blade Pitch [(rpm)^2Hz^{-1}]') 
-legend('Platform damper ON','Platform damper OFF')
+legend('Platform damper ON','Platform damper ON - reduced gain','Platform damper OFF')
 hold off
