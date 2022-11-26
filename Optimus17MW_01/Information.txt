@@ -1,0 +1,2 @@
+simulation with different turbulent wind fields
+estimation of espectra using platform damper on and off
