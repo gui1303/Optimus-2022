@@ -1,2 +1,1 @@
-simulation with different turbulent wind fields
-estimation of espectra using platform damper on and off
+New rotor with turbulent wind and modified controller
