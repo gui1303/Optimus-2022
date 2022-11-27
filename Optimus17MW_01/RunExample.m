@@ -21,13 +21,13 @@ vWindow             = hamming(nDataPerBlock);   % [-]           window for estim
 nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
 nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
 
-vWindSpeed          = 10:1:25;
+vWindSpeed          = 5:1:25;
 NumSim              = length(vWindSpeed);
 
 % Files (should not be be changed)
 FASTexeFile         = 'openfast_x64.exe';
 FASTmapFile         = 'MAP_x64.lib';
-SimulationName      = 'IEA-15-240-RWT-UMaineSemi';
+SimulationName      = 'IEA-15-255-RWT-UMaineSemi';
 
 if ~exist('SimulationResultsConstant','dir')
     mkdir SimulationResultsConstant
@@ -44,7 +44,7 @@ copyfile(['..\OpenFAST modified controller\',FASTmapFile],FASTmapFile)
 for iSim = 1:NumSim
     % Change wind file
     WindSpeed         = vWindSpeed(iSim);
-    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat','SetWind                HWindSpeed',[num2str(vWindSpeed(iSim)),'                HWindSpeed']);
+    ManipulateTXTFile('IEA-15-255-RWT_UMaineSemi_InflowFile.dat','SetWind                HWindSpeed',[num2str(vWindSpeed(iSim)),'                HWindSpeed']);
     FASTresultFile      = ['SimulationResultsConstant\URef_18_Constant_',num2str(WindSpeed),'.outb'];
     if ~exist(FASTresultFile,'file')    
         dos([FASTexeFile,' ',SimulationName,'.fst']);
@@ -53,7 +53,7 @@ for iSim = 1:NumSim
     % read in data
     FB_Constant(iSim)    = ReadFASTbinaryIntoStruct(FASTresultFile);
     % Reset the InflowWind file again
-    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat',[num2str(vWindSpeed(iSim)),'                HWindSpeed'],'SetWind                HWindSpeed');
+    ManipulateTXTFile('IEA-15-255-RWT_UMaineSemi_InflowFile.dat',[num2str(vWindSpeed(iSim)),'                HWindSpeed'],'SetWind                HWindSpeed');
     
     % Plot time results
     figure('Name','Time results for wind speed')
@@ -95,7 +95,7 @@ for iSim = 1:NumSim
     figure('Name','Time results for electric power')
     title(['Wind speed ', num2str(vWindSpeed(iSim)), ' m/s'])
     hold on; grid on; box on
-    plot(FB_Constant(iSim).Time,FB_Constant(iSim).GenPwr/1000,'Color',[0.8500 0.3250 0.0980]);
+    plot(FB_Constant(iSim).Time,FB_Constant(iSim).RotPwr/1000,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Electric power [MW]');
     xlabel('time [s]')
     xlim([0 630]);
