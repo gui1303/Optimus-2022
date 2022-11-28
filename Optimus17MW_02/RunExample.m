@@ -25,7 +25,7 @@ nOverlap            = [];                       % [-]           samples of overl
 % Files (should not be be changed)
 FASTexeFile         = 'openfast_x64.exe';
 FASTmapFile         = 'MAP_x64.lib';
-SimulationName      = 'IEA-15-240-RWT-UMaineSemi';
+SimulationName      = 'IEA-15-255-RWT-UMaineSemi';
 
 if ~exist('SimulationResultsGust','dir')
     mkdir SimulationResultsGust
@@ -88,7 +88,7 @@ hold off
     
 figure('Name','Time results for electric power')
 hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.GenPwr/1000,'Color',[0.8500 0.3250 0.0980]);
+plot(FB_Gust.Time,FB_Gust.RotPwr/1000,'Color',[0.8500 0.3250 0.0980]);
 ylabel('Electric power [MW]');
 xlabel('time [s]')
 xlim([0 630]);
