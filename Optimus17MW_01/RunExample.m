@@ -21,7 +21,7 @@ vWindow             = hamming(nDataPerBlock);   % [-]           window for estim
 nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
 nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
 
-vWindSpeed          = 25:1:25;
+vWindSpeed          = 18:1:18;
 NumSim              = length(vWindSpeed);
 
 % Files (should not be be changed)
