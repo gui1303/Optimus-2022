@@ -25,12 +25,12 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 --------------------------- Initial Conditions ---------------------------------
                  0.0   OoPDefl      - Initial out-of-plane blade-tip displacement (meters)
                  0.0   IPDefl       - Initial in-plane blade-tip deflection (meters)
-                 1.0   BlPitch(1)   - Blade 1 initial pitch (degrees)
-                 1.0   BlPitch(2)   - Blade 2 initial pitch (degrees)
-                 1.0   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
+                 15.0   BlPitch(1)   - Blade 1 initial pitch (degrees)
+                 15.0   BlPitch(2)   - Blade 2 initial pitch (degrees)
+                 15.0   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
                  0.0   TeetDefl     - Initial or fixed teeter angle (degrees) [unused for 3 blades]
                  0.0   Azimuth      - Initial azimuth angle for blade 1 (degrees)
-                7.55   RotSpeed     - Initial or fixed rotor speed (rpm)
+                7.85   RotSpeed     - Initial or fixed rotor speed (rpm)
                  0.0   NacYaw       - Initial or fixed nacelle-yaw angle (degrees)
                  0.0   TTDspFA      - Initial fore-aft tower-top displacement (meters)
                  0.0   TTDspSS      - Initial side-to-side tower-top displacement (meters)
@@ -61,7 +61,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
                  0.0   NcIMUyn      - Lateral  distance from the tower-top to the nacelle IMU (meters)
                  0.0   NcIMUzn      - Vertical distance from the tower-top to the nacelle IMU (meters)
               4.3495   Twr2Shft     - Vertical distance from the tower-top to the rotor shaft (meters)
-             144.386   TowerHt      - Height of tower above ground level [onshore] or MSL [offshore] (meters)
+             150.000   TowerHt      - Height of tower above ground level [onshore] or MSL [offshore] (meters)
                 15.0   TowerBsHt    - Height of tower base above ground level [onshore] or MSL [offshore] (meters)
                  0.0   PtfmCMxt     - Downwind distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
                  0.0   PtfmCMyt     - Lateral distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
@@ -82,7 +82,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
           1.2507E+10   PtfmPIner    - Platform inertia for pitch tilt rotation about the platform CM (kg m^2)
           2.3667E+10   PtfmYIner    - Platform inertia for yaw rotation about the platform CM (kg m^2)
 --------------------------- Blade ----------------------------------------------
-                  50   BldNodes     - Number of blade nodes (per blade) used for analysis (-)
+                  18   BldNodes     - Number of blade nodes (per blade) used for analysis (-)
 "StrucData/IEA-15-255-RWT-UMaineSemi_ElastoDyn_blade.dat" BldFile1     - Name of file containing properties for blade 1 (quoted string)
 "StrucData/IEA-15-255-RWT-UMaineSemi_ElastoDyn_blade.dat" BldFile2     - Name of file containing properties for blade 2 (quoted string)
 "StrucData/IEA-15-255-RWT-UMaineSemi_ElastoDyn_blade.dat" BldFile3     - Name of file containing properties for blade 3 (quoted string) [unused for 2 blades]
@@ -97,7 +97,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
                    0   TeetHSSp     - Rotor-teeter hard-stop linear-spring constant (N-m/rad) [used only for 2 blades and when TeetMod=1]
 --------------------------- Drivetrain -----------------------------------------
                100.0   GBoxEff      - Gearbox efficiency (%)
-                 1.0   GBRatio      - Gearbox ratio (-)
+               57.35   GBRatio      - Gearbox ratio (-)
        51140939610.0   DTTorSpr     - Drivetrain torsional spring (N-m/rad)
           42676833.0   DTTorDmp     - Drivetrain torsional damper (N-m/(rad/s))
 --------------------------- Furling --------------------------------------------
