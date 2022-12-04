@@ -64,6 +64,7 @@ for iSim = 1:NumSim
     plot(FB_Constant(iSim).Time,FB_Constant(iSim).RotSpeed,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Rotor speed [RPM]');
     xlabel('time [s]')
+    ylim([6 9]);
     xlim([0 630]);
     hold off
 
@@ -74,6 +75,7 @@ for iSim = 1:NumSim
     ylabel('Platform pitch [deg]');
     xlabel('time [s]')
     xlim([0 630]);
+    ylim([0 5]);
     hold off
 
     figure('Name','Time results for blade pitch')
@@ -83,6 +85,7 @@ for iSim = 1:NumSim
     ylabel('Blade pitch [deg]');
     xlabel('time [s]')
     xlim([0 630]);
+    ylim([5 20]);
     hold off
 
     figure('Name','Time results for electric power')
@@ -92,6 +95,7 @@ for iSim = 1:NumSim
     ylabel('Electric power [MW]');
     xlabel('time [s]')
     xlim([0 630]);
+    ylim([15 20]);
     hold off
 end 
 

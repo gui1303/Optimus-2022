@@ -28,7 +28,10 @@ SteadyStates                    = load('SteadyStatesNREL5MW_FBNREL_SLOW','v_0','
 Parameter.Turbine.i             = 1/57.35;
 Parameter.Turbine.R             = 127.5;
 Parameter.Turbine.J             = 318628138.00000;
-        
+SteadyStates.theta              = load('theta');
+SteadyStates.theta              = (SteadyStates.theta.theta); 
+SteadyStates.v_0                = (linspace(12,26,297));
+SteadyStates.Omega              = repmat(0.8221,1,297);        
 %% loop over operation points
 nOP     = length(OPs);
 kp      = NaN(1,nOP);
@@ -42,7 +45,7 @@ for iOP=1:nOP
     OP = OPs(iOP);
     
     % Linearize at each operation point
-    index = find(abs(SteadyStates.v_0 - OP) < 0.001);
+    index = max(find(abs(SteadyStates.v_0 - OP) < 0.05));
     v_0_OP = OPs(iOP);
     Omega_OP = SteadyStates.Omega(index);
     theta_OP = SteadyStates.theta(index);
@@ -51,8 +54,8 @@ for iOP=1:nOP
     b2 = b(2);
     
     % Determine theta, kp and Ti for each operation point
-    kp(iOP) = ((-2*D_d*omega_d+a)/(b1*c));
-    ki(iOP) = -omega_d^2/(b1*c);
+    kp(iOP) = -((-2*D_d*omega_d+a)/(b1*c));
+    ki(iOP) = omega_d^2/(b1*c);
     Ti(iOP) = kp(iOP)/ki(iOP);
     theta(iOP) = theta_OP;
     

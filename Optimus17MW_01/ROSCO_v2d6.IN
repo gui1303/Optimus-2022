@@ -36,12 +36,12 @@
 10.461600  1.000000  ! F_FlpCornerFreq   - Corner frequency and damping in the second order low pass filter of the blade root bending moment for flap control [rad/s, -].
 
 !------- BLADE PITCH CONTROL ----------------------------------------------
-30                  ! PC_GS_n			- Amount of gain-scheduling table entries
-0.061311  0.088116  0.108942  0.126990  0.143219  0.158161  0.172040  0.185119  0.197612  0.209635  0.221066  0.232181  0.242992  0.253405  0.263647  0.273567  0.283313  0.292848  0.302185  0.311386  0.320385  0.329291  0.338004  0.346643  0.355108  0.363504  0.371761  0.379937  0.388011  0.395981                ! PC_GS_angles	    - Gain-schedule table: pitch angles [rad].
--1.206456  -1.044724  -0.911403  -0.799610  -0.704521  -0.622652  -0.551426  -0.488893  -0.433554  -0.384235  -0.340004  -0.300113  -0.263952  -0.231022  -0.200909  -0.173265  -0.147799  -0.124263  -0.102447  -0.082167  -0.063268  -0.045612  -0.029082  -0.013573  0.001008  0.014740  0.027696  0.039940  0.051529  0.062514                ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
--0.125868  -0.113748  -0.103758  -0.095380  -0.088255  -0.082120  -0.076782  -0.072096  -0.067949  -0.064253  -0.060939  -0.057949  -0.055240  -0.052772  -0.050515  -0.048444  -0.046536  -0.044772  -0.043137  -0.041617  -0.040201  -0.038878  -0.037639  -0.036477  -0.035384  -0.034355  -0.033384  -0.032467  -0.031599  -0.030775                ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
-0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000                ! PC_GS_KD			- Gain-schedule table: pitch controller kd gains
-0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000                ! PC_GS_TF			- Gain-schedule table: pitch controller tf gains (derivative filter)
+6                  ! PC_GS_n			- Amount of gain-scheduling table entries
+0.024436 0.120120 0.180353 0.229909 0.279849 0.327009                 ! PC_GS_angles	    - Gain-schedule table: pitch angles [rad].
+-0.166720 -0.020860 -0.015535 -0.014350 -0.015134 -0.015108                ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
+-0.039771 -0.004718 -0.003080 -0.002549 -0.002550 -0.002407             ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
+0.000000  0.000000  0.000000  0.000000  0.000000  0.000000                  ! PC_GS_KD			- Gain-schedule table: pitch controller kd gains
+0.000000  0.000000  0.000000  0.000000  0.000000  0.000000               ! PC_GS_TF			- Gain-schedule table: pitch controller tf gains (derivative filter)
 1.570000000000      ! PC_MaxPit			- Maximum physical pitch limit, [rad].
 0.000000000000      ! PC_MinPit			- Minimum physical pitch limit, [rad].
 0.034900000000      ! PC_MaxRat			- Maximum pitch rate (in absolute value) in pitch controller, [rad/s].
@@ -62,7 +62,7 @@
 96.55000000000      ! VS_GenEff			- Generator efficiency mechanical power -> electrical power, [should match the efficiency defined in the generator properties!], [%]
 21653140.00000      ! VS_ArSatTq		- Above rated generator torque PI control saturation, [Nm]
 4500000.000000      ! VS_MaxRat			- Maximum torque rate (in absolute value) in torque controller, [Nm/s].
-23818454.00000      ! VS_MaxTq			- Maximum generator torque in Region 3 (HSS side), [Nm].
+22818454.00000      ! VS_MaxTq			- Maximum generator torque in Region 3 (HSS side), [Nm].
 0.000000000000      ! VS_MinTq			- Minimum generator torque (HSS side), [Nm].
 0.523600000000      ! VS_MinOMSpd		- Minimum generator speed [rad/s]
 32677552.30000      ! VS_Rgn2K			- Generator torque constant in Region 2 (HSS side), [Nm/(rad/s)^2]
