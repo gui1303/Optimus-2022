@@ -27,7 +27,7 @@ if ~exist('SimulationResultsConstant','dir')
 end
 
 
-%% Processing: run simulations with gust
+%% Processing: run simulations with constant wind
 
 % Copy the adequate OpenFAST version to the example folder
 copyfile(['..\OpenFAST modified controller\',FASTexeFile],FASTexeFile)
@@ -47,16 +47,16 @@ for iSim = 1:NumSim
     FB_Constant(iSim)    = ReadFASTbinaryIntoStruct(FASTresultFile);
     % Reset the InflowWind file again
     ManipulateTXTFile('IEA-15-255-RWT_UMaineSemi_InflowFile.dat',[num2str(vWindSpeed(iSim)),'                HWindSpeed'],'SetWind                HWindSpeed');
-    
-    % Plot time results
-    figure('Name','Time results for wind speed')
-    title(['Wind speed ', num2str(vWindSpeed(iSim)), ' m/s'])
-    hold on; grid on; box on
-    plot(FB_Constant(iSim).Time,FB_Constant(iSim).Wind1VelX,'Color',[0.8500 0.3250 0.0980]);
-    ylabel('Wind velocity [m/s]');
-    xlabel('time [s]')
-    xlim([0 630]);
-    hold off
+%     
+%     % Plot time results
+%     figure('Name','Time results for wind speed')
+%     title(['Wind speed ', num2str(vWindSpeed(iSim)), ' m/s'])
+%     hold on; grid on; box on
+%     plot(FB_Constant(iSim).Time,FB_Constant(iSim).Wind1VelX,'Color',[0.8500 0.3250 0.0980]);
+%     ylabel('Wind velocity [m/s]');
+%     xlabel('time [s]')
+%     xlim([0 630]);
+%     hold off
 
     figure('Name','Time results for rotor speed')
     title(['Wind speed ', num2str(vWindSpeed(iSim)), ' m/s'])
