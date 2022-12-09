@@ -14,7 +14,7 @@ clc;
 addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
-vWindSpeed          = 4:4:22;
+vWindSpeed          = 18:2:18;
 NumSim              = length(vWindSpeed);
 
 % Files (should not be be changed)
@@ -64,8 +64,8 @@ for iSim = 1:NumSim
     plot(FB_Constant(iSim).Time,FB_Constant(iSim).RotSpeed,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Rotor speed [RPM]');
     xlabel('time [s]')
-    ylim([6 9]);
-    xlim([0 630]);
+%     ylim([6 9]);
+%     xlim([0 630]);
     hold off
 
     figure('Name','Time results for platform pitch')
@@ -74,8 +74,8 @@ for iSim = 1:NumSim
     plot(FB_Constant(iSim).Time,FB_Constant(iSim).PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Platform pitch [deg]');
     xlabel('time [s]')
-    xlim([0 630]);
-    ylim([0 5]);
+%     xlim([0 630]);
+%     ylim([0 5]);
     hold off
 
     figure('Name','Time results for blade pitch')
@@ -84,8 +84,8 @@ for iSim = 1:NumSim
     plot(FB_Constant(iSim).Time,FB_Constant(iSim).BldPitch1,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Blade pitch [deg]');
     xlabel('time [s]')
-    xlim([0 630]);
-    ylim([5 20]);
+%     xlim([0 630]);
+%     ylim([5 20]);
     hold off
 
     figure('Name','Time results for electric power')
@@ -94,8 +94,8 @@ for iSim = 1:NumSim
     plot(FB_Constant(iSim).Time,FB_Constant(iSim).RotPwr/1000,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Electric power [MW]');
     xlabel('time [s]')
-    xlim([0 630]);
-    ylim([15 20]);
+%     xlim([0 630]);
+%     ylim([15 20]);
     hold off
 end 
 

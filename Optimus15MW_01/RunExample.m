@@ -9,28 +9,28 @@ clc;
 addpath('..\MatlabFunctions')
 
 %% Run FB without platform damper
-
-% Disable the damper. Should have some kind of test here in case the damper
-% is already disabled it will not change.
-ManipulateTXTFile('ROSCO_v2d6.IN','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
-
-% Copy the adequate OpenFAST version to the example folder
-FASTexeFile     = 'openfast_x64.exe';
-FASTmapFile     = 'MAP_x64.dll';
-copyfile(['..\OpenFAST\',FASTexeFile],FASTexeFile)
-copyfile(['..\OpenFAST\',FASTmapFile],FASTmapFile)
-
-% Run the simulation
-SimulationName  = 'IEA-15-240-RWT-UMaineSemiNoDamper';
-dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
-movefile([SimulationName,'.outb'],[SimulationName,'_FB.outb'])      % store results
-
-% read in data
-FB_no_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
-
-% Clean up
-delete(FASTexeFile)
-delete(FASTmapFile)
+% 
+% % Disable the damper. Should have some kind of test here in case the damper
+% % is already disabled it will not change.
+% ManipulateTXTFile('ROSCO_v2d6.IN','2                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}','0                   ! Fl_Mode           - Floating specific feedback mode {0: no nacelle velocity feedback, 1: feed back translational velocity, 2: feed back rotational veloicty}');
+% 
+% % Copy the adequate OpenFAST version to the example folder
+% FASTexeFile     = 'openfast_x64.exe';
+% FASTmapFile     = 'MAP_x64.dll';
+% copyfile(['..\OpenFAST\',FASTexeFile],FASTexeFile)
+% copyfile(['..\OpenFAST\',FASTmapFile],FASTmapFile)
+% 
+% % Run the simulation
+% SimulationName  = 'IEA-15-240-RWT-UMaineSemiNoDamper';
+% dos([FASTexeFile,' ',SimulationName,'.fst']);                       % run OpenFAST
+% movefile([SimulationName,'.outb'],[SimulationName,'_FB.outb'])      % store results
+% 
+% % read in data
+% FB_no_damper     = ReadFASTbinaryIntoStruct([SimulationName,'_FB.outb']);
+% 
+% % Clean up
+% delete(FASTexeFile)
+% delete(FASTmapFile)
 
 %% Run FB with damper
 
