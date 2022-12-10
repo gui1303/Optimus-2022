@@ -5,13 +5,15 @@ function [Parameter] = NREL5MWDefaultParameter_FBSWE(Parameter)
 % calculated for D_d = [0.700000 ]
 % and omega_0_d = [0.500000 ]
 % at v_0   = [12.000000 16.000000 20.000000 24.000000 ] 
-theta      = [0.066475 0.210387 0.304969 0.389926 ];
-kp         = [0.008964 0.004351 0.004987 0.005633 ];
-Ti         = [3.589214 6.374806 10.558934 15.856681 ];
+theta      = [0.095867 0.185201 0.253213 0.321743  ];
+kp         = [0.008337 0.006518 0.007245 0.007932 ];
+Ti         = [3.382438 5.664518 8.144531 9.867916 ];
+ki         = [0.002464929516892,0.001150716234569,8.895933824619974e-04,8.038027915907341e-04];
 % ---
 Parameter.CPC.GS.theta                  = theta;                            % [rad]
 Parameter.CPC.GS.kp                     = kp;                               % [s]
 Parameter.CPC.GS.Ti                     = Ti;                               % [s] 
+Parameter.CPC.GS.ki                     = ki;
 
 Parameter.CPC.Omega_g_rated             = 47.1239;               % [rad/s]
 Parameter.CPC.theta_max                 = deg2rad(90);                      % [rad]
@@ -27,8 +29,9 @@ Parameter.VSC.P_a_rated                 = P_el_rated/Parameter.Generator.eta_el;
 
 
 Parameter.VSC.Omega_g_1d5               = rpm2radPs(4)/Parameter.Turbine.i; % [rad/s];  
-Parameter.VSC.kp                        = 34529.34165;
-Parameter.VSC.Ti                        = 3.737406; 
+Parameter.VSC.kp                        = 38557.545594;
+Parameter.VSC.Ti                        = 4.173413 ; 
+Parameter.VSC.ki                        = 9.238851256325397e+03; 
 
 Parameter.VSC.M_g_max                   = Parameter.VSC.M_g_rated*1.1;      % [Nm] 
 
