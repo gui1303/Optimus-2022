@@ -21,10 +21,10 @@ end
 
 % Run the simulation
 FASTresultFile      = 'SimulationResultsConstant\URef_18_Constant_.outb';
-if ~exist(FASTresultFile,'file')    
+% if ~exist(FASTresultFile,'file')    
     dos([FASTexeFile,' ',SimulationName,'.fst']);
     movefile([SimulationName,'.outb'],FASTresultFile)
-end
+% end
 
 % read in data
 FB_Constant    = ReadFASTbinaryIntoStruct(FASTresultFile);
@@ -57,7 +57,38 @@ xlabel('time [s]')
 hold off
 
 
-    
+%% Plot         
+ScreenSize = get(0,'ScreenSize');
+figure('Name','Simulation results','position',[.1 .1 .8 .8].*ScreenSize([3,4,3,4]))
+n = 5;
+
+MyAxes(1) = subplot(n,1,1);
+hold on; grid on; box on
+plot(FB_Constant.Time,       FB_Constant.Wind1VelX);
+ylabel('[m/s]');
+
+MyAxes(2) = subplot(n,1,2);
+hold on; grid on; box on
+plot(FB_Constant.Time,       FB_Constant.BldPitch1, 'r');
+ylabel('BldPitch1 [deg]');
+
+MyAxes(3) = subplot(n,1,3);
+hold on; grid on; box on
+plot(FB_Constant.Time,       FB_Constant.GenTq, 'r');
+ylabel('GenTq [kNm]');
+
+MyAxes(4) = subplot(n,1,4);
+hold on; grid on; box on
+plot(FB_Constant.Time,       FB_Constant.RotSpeed, 'r');
+ylabel('RotSpeed [rpm]');
+
+MyAxes(5) = subplot(n,1,5);
+hold on; grid on; box on
+plot(FB_Constant.Time,       FB_Constant.GenPwr/1e3, 'r');
+ylabel('GenPwr [MW]');
+
+xlabel('time [s]')
+linkaxes(MyAxes,'x');    
     
 
  
