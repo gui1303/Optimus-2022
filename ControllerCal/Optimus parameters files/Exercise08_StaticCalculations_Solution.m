@@ -137,44 +137,38 @@ P           = M_g*Parameter.Generator.eta_el.*Omega/Parameter.Turbine.i;
 
 
 %% 6. Plot
-% figure('Name','Omega')
-% hold on;grid on;box on;
-% plot(v_0,radPs2rpm(Omega),'.')
-% xlabel('v_0 [m/s]')
-% ylabel('\Omega [rpm]')
-% 
-% figure('Name','theta')
-% hold on;grid on;box on;
-% plot(v_0,rad2deg(theta),'.')
-% xlabel('v_0 [m/s]')
-% ylabel('\theta [deg]')
-% 
-% figure('Name','M_g')
-% hold on;grid on;box on;
-% plot(v_0,M_g,'.')
-% xlabel('v_0 [m/s]')
-% ylabel('M_g [Nm]')
-% 
-% figure('Name','x_T')
-% hold on;grid on;box on;
-% plot(v_0,x_T,'.')
-% xlabel('v_0 [m/s]')
-% ylabel('x_T [m]')
-% 
-% figure('Name','P')
-% hold on;grid on;box on;
-% plot(v_0,P,'.')
-% xlabel('v_0 [m/s]')
-% ylabel('P [W]')
-% 
-% figure('Name','Torque Controller')
-% hold on;grid on;box on;
-% plot(radPs2rpm(Omega),M_g/1e3,'.-')
-% xlabel('Omega [rpm]')
-% ylabel('M_g [kNm]')
+figure('Name','Omega')
+hold on;grid on;box on;
+plot(v_0,radPs2rpm(Omega),'.')
+xlabel('v_0 [m/s]')
+ylabel('\Omega [rpm]')
 
+figure('Name','theta')
+hold on;grid on;box on;
+plot(v_0,rad2deg(theta),'.')
+xlabel('v_0 [m/s]')
+ylabel('\theta [deg]')
 
-%% Update steady states data
+figure('Name','M_g')
+hold on;grid on;box on;
+plot(v_0,M_g,'.')
+xlabel('v_0 [m/s]')
+ylabel('M_g [Nm]')
 
-SS = load('SteadyStatesNREL5MW_FBSWE_SLOW.mat');
-dthetadv_0 = SS.dthetadv_0;
+figure('Name','x_T')
+hold on;grid on;box on;
+plot(v_0,x_T,'.')
+xlabel('v_0 [m/s]')
+ylabel('x_T [m]')
+
+figure('Name','P')
+hold on;grid on;box on;
+plot(v_0,P,'.')
+xlabel('v_0 [m/s]')
+ylabel('P [W]')
+
+figure('Name','Torque Controller')
+hold on;grid on;box on;
+plot(radPs2rpm(Omega),M_g/1e3,'.-')
+xlabel('Omega [rpm]')
+ylabel('M_g [kNm]')

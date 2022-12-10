@@ -55,7 +55,8 @@ switch CalculationName
         FlagPITorqueControl         	= 1; % 0: only State Feedback, 1: PI controlled in region 1.5 and 2.5
         
         %% Wind speeds
-        v_0         = 3.5:.1:30; % [m/s]
+        %v_0         = 3.5:.1:30; % [m/s]
+        v_0          = linspace(3.5,30,300);
         
         %% find v_rated
         v_0_min                         = 0;
