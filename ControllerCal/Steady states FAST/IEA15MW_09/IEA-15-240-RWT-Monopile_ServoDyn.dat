@@ -1,5 +1,5 @@
 ------- SERVODYN v1.05.* INPUT FILE --------------------------------------------
-IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floating platform
+IEA 15 MW offshore reference model monopile configuration
 ---------------------- SIMULATION CONTROL --------------------------------------
 False                  Echo        - Echo input data to <RootName>.ech (flag)
 "default"              DT          - Communication interval for controllers (s) (or "default")
@@ -52,16 +52,11 @@ True                   GenTiStp    - Method to stop the generator {T: timed usin
 0                      YCMode      - Yaw control mode {0: none, 3: user-defined from routine UserYawCont, 4: user-defined from Simulink/Labview, 5: user-defined from Bladed-style DLL} (switch)
 9999.9                 TYCOn       - Time to enable active yaw control (s) [unused when YCMode=0]
 0.0                    YawNeut     - Neutral yaw position--yaw spring force is zero at this yaw (degrees)
-8458453511.0           YawSpr      - Nacelle-yaw spring constant (N-m/rad)
-28561762.0              YawDamp     - Nacelle-yaw damping constant (N-m/(rad/s))
+6009291301.0           YawSpr      - Nacelle-yaw spring constant (N-m/rad)
+4811254.0              YawDamp     - Nacelle-yaw damping constant (N-m/(rad/s))
 9999.9                 TYawManS    - Time to start override yaw maneuver and end standard yaw control (s)
 0.25                   YawManRat   - Yaw maneuver rate (in absolute value) (deg/s)
 0.0                    NacYawF     - Final yaw angle for override yaw maneuvers (degrees)
----------------------- Aerodynamic Flow Control -------------------------------------
-0                      AfCmode     - Airfoil control mode {0- none, 1- cosine wave cycle, 4- user-defined from Simulink/Labview, 5- user-defined from Bladed-style DLL}
-0.0                    AfC_Mean    - Mean level for sinusoidal cycling or steady value (-) [used only with AfCmode==1]
-0.0                    AfC_Amp     - Amplitude for for cosine cycling of flap signal (AfC = AfC_Amp*cos(Azimuth+phase)+AfC_mean) (-) [used only with AfCmode==1]
-0.0                    AfC_phase   - Phase relative to the blade azimuth (0 is vertical) for for cosine cycling of flap signal (deg) [used only with AfCmode==1]
 ---------------------- STRUCTURAL CONTROL ---------------------------------------
 0                      NumBStC     - Number of blade structural controllers (integer)
 "unused"               BStCfiles   - Name of the file for blade tuned mass damper (quoted string) [unused when CompNTMD is false]
@@ -71,15 +66,14 @@ True                   GenTiStp    - Method to stop the generator {T: timed usin
 "unused"               TStCfiles   - Name of the file for tower tuned mass damper (quoted string) [unused when CompNTMD is false]
 0                      NumSStC     - Number of sbustructure structural controllers (integer)
 "unused"               SStCfiles   - Name of the file for sbustructure tuned mass damper (quoted string) [unused when CompNTMD is false]
----------------------- CABLE CONTROL ---------------------------------------- 
-0                      CCmode      - Cable control mode {0- none, 4- user-defined from Simulink/Labview, 5- user-defineAfC_phased from Bladed-style DLL}
 ---------------------- BLADED INTERFACE ---------------------------------------- [used only with Bladed Interface]
-"ROSCO_v2d6.dll" DLL_FileName - Name/location of the dynamic library {.dll [Windows] or .so [Linux]} in the Bladed-DLL format (-) [used only with Bladed Interface]
-"ROSCO_v2d6.IN"   DLL_InFile  - Name of input file sent to the DLL (-) [used only with Bladed Interface]
+"WRAPPER.dll"  		   DLL_FileName - Name/location of the dynamic library {.dll [Windows] or .so [Linux]} in the Bladed-DLL format (-) [used only with Bladed Interface]
+"WRAPPER.IN"   		   DLL_InFile  - Name of input file sent to the DLL (-) [used only with Bladed Interface]
 "DISCON"               DLL_ProcName - Name of procedure in DLL to be called (-) [case sensitive; used only with DLL Interface]
 "default"              DLL_DT      - Communication interval for dynamic library (s) (or "default") [used only with Bladed Interface]
 False                  DLL_Ramp    - Whether a linear ramp should be used between DLL_DT time steps [introduces time shift when true] (flag) [used only with Bladed Interface]
 9999.9                 BPCutoff    - Cuttoff frequency for low-pass filter on blade pitch from DLL (Hz) [used only with Bladed Interface]
+19786770               InitGenTrq   - Generator torque at initial state.	(Nm)																			 
 0.0                    NacYaw_North - Reference yaw angle of the nacelle when the upwind end points due North (deg) [used only with Bladed Interface]
 0                      Ptch_Cntrl  - Record 28: Use individual pitch control {0: collective pitch; 1: individual pitch control} (switch) [used only with Bladed Interface]
 0.0                    Ptch_SetPnt - Record  5: Below-rated pitch angle set-point (deg) [used only with Bladed Interface]
@@ -98,13 +92,13 @@ False                  DLL_Ramp    - Whether a linear ramp should be used betwee
 GenSpd_TLU            	GenTrq_TLU            
 (rpm)                 	(Nm)                  
 ---------------------- OUTPUT --------------------------------------------------
-True                   SumPrint    - Print summary data to <RootName>.sum (flag) (currently unused)
+False                  SumPrint    - Print summary data to <RootName>.sum (flag) (currently unused)
 1                      OutFile     - Switch to determine where output will be placed: {1: in module output file only; 2: in glue code output file only; 3: both} (currently unused)
 True                   TabDelim    - Use tab delimiters in text tabular output file? (flag) (currently unused)
 "ES10.3E2"             OutFmt      - Format used for text tabular output (except time).  Resulting field should be 10 characters. (quoted string) (currently unused)
-30.0                   TStart      - Time to begin tabular output (s) (currently unused)
-OutList      - The next line(s) contains a list of output parameters.  
+0.0                    TStart      - Time to begin tabular output (s) (currently unused)
+              OutList      - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
 "GenPwr"
 "GenTq"
-END of input file (the word "END" must appear in the first 3 columns of this last Out_List line)
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
 ---------------------------------------------------------------------------------------
