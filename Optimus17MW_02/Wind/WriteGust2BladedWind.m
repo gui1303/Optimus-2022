@@ -11,6 +11,7 @@ T           = 600;                  % [s]   simulation length
 dt          = 1/40;               	% [s]   simulation time step
 
 % wind
+
 V_hub       = 18;                   % [m/s] mean wind speed at hub height 
 T_gust      = 10.5;                 % [s]   length of EOG
 t_start     = 300;                   % [s]   time when EOG should start

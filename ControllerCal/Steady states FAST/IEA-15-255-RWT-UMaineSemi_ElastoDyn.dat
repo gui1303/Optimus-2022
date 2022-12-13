@@ -25,14 +25,14 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 --------------------------- Initial Conditions ---------------------------------
 				 2.22   OoPDefl     - Initial out-of-plane blade-tip displacement (meters)
 				  0   IPDefl      - Initial in-plane blade-tip deflection (meters)
-				13.0   BlPitch(1)  - Blade 1 initial pitch (degrees)
-				13.0   BlPitch(2)  - Blade 2 initial pitch (degrees)
-				13.0   BlPitch(3)  - Blade 3 initial pitch (degrees) [unused for 2 blades]
+				MyBlPitch   BlPitch(1)  - Blade 1 initial pitch (degrees)
+				MyBlPitch   BlPitch(2)  - Blade 2 initial pitch (degrees)
+				MyBlPitch   BlPitch(3)  - Blade 3 initial pitch (degrees) [unused for 2 blades]
 				  0   TeetDefl    - Initial or fixed teeter angle (degrees) [unused for 3 blades]
 				  0   Azimuth     - Initial azimuth angle for blade 1 (degrees)
-			   7.85   RotSpeed    - Initial or fixed rotor speed (rpm)
+			   MyRotSpeed   RotSpeed    - Initial or fixed rotor speed (rpm)
 				  0   NacYaw      - Initial or fixed nacelle-yaw angle (degrees)
-				  0.0930   TTDspFA     - Initial fore-aft tower-top displacement (meters)
+				  MyTTDspFA  TTDspFA     - Initial fore-aft tower-top displacement (meters)
 				  0   TTDspSS     - Initial side-to-side tower-top displacement (meters)
 				  12   PtfmSurge   - Initial or fixed horizontal surge translational displacement of platform (meters)
 				  -0.147   PtfmSway    - Initial or fixed horizontal sway translational displacement of platform (meters)
@@ -61,7 +61,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
                  0.0   NcIMUyn      - Lateral  distance from the tower-top to the nacelle IMU (meters)
                  0.0   NcIMUzn      - Vertical distance from the tower-top to the nacelle IMU (meters)
               4.3495   Twr2Shft     - Vertical distance from the tower-top to the rotor shaft (meters)
-             150.000   TowerHt      - Height of tower above ground level [onshore] or MSL [offshore] (meters)
+                 150   TowerHt      - Height of tower above ground level [onshore] or MSL [offshore] (meters)
                 15.0   TowerBsHt    - Height of tower base above ground level [onshore] or MSL [offshore] (meters)
                  0.0   PtfmCMxt     - Downwind distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
                  0.0   PtfmCMyt     - Lateral distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
@@ -128,6 +128,9 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 "TwrBsMyt"
 "TTDspFA"
 END of input file (the word "END" must appear in the first 3 columns of this last OutList line)"TTDspFA"
-================================================================================
-123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch123456789MyBlPitch
-        1MyBlPitch        2MyBlPitch        3MyBlPitch        4MyBlPitch        5MyBlPitch        6MyBlPitch        7MyBlPitch        8MyBlPitch
+---------------------- NODE OUTPUTS --------------------------------------------
+          1   BldNd_BladesOut  - Blades to output
+         99   BldNd_BlOutNd   - Blade nodes on each blade (currently unused)
+              OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx, ElastoDyn_Nodes tab for a listing of available output channels, (-)
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+---------------------------------------------------------------------------------------

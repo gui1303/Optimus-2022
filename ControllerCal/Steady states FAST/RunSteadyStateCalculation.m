@@ -14,10 +14,10 @@ addpath('..\..\MatlabFunctions');
 
 % Parameters (can be adjusted, but will provide different results)
 SaveFlag                = true;    % [true/false]  flag to overwrite SteadyStatesIEA15MW_Monopile_ROSCO_FAST
-PlotTimeSignalsFlag     = true;     % [true/false]  flag to plot time results (might be too much for a lot of simulations)    
-AdjustSteadyStatesFlag  = false;     % [true/false]  flag to load steady states (set false in the first iteration)
-HWindSpeed_vec          = 4:1:30;   % [m/s]         range of wind speeds (operation points)
-n_Rotation              = 3;        % [-]           number of rotations considered
+PlotTimeSignalsFlag     = false;     % [true/false]  flag to plot time results (might be too much for a lot of simulations)    
+AdjustSteadyStatesFlag  = true;     % [true/false]  flag to load steady states (set false in the first iteration)
+HWindSpeed_vec          = 4:0.2:30;   % [m/s]         range of wind speeds (operation points)
+n_Rotation              = 5;        % [-]           number of rotations considered
 SteadyStateFile         = 'SteadyStatesOptimus.mat';
 Info                    = 'Created by RunSteadyStateCalculation.m of example IEA15MW_09.'; 
 
@@ -68,17 +68,17 @@ for i_HWindSpeed    = 1:n_HWindSpeed
 
         % Adjust the ElastoDyn File
         if AdjustSteadyStatesFlag
-            MyBlPitch   = num2str(rad2deg  (interp1(v_0,theta,HWindSpeed)),'%5.2f');
-            MyRotSpeed  = num2str(radPs2rpm(interp1(v_0,Omega,HWindSpeed)),'%5.2f');
-            MyTTDspFA   = num2str(         (interp1(v_0,x_T  ,HWindSpeed)),'%5.2f');      
+            MyBlPitch   = num2str(0.0001 + rad2deg  (interp1(v_0,theta,HWindSpeed)),'%5.4f');
+            MyRotSpeed  = num2str(0.0001 + radPs2rpm(interp1(v_0,Omega,HWindSpeed)),'%5.4f');
+            MyTTDspFA   = num2str(0.0001  +          (interp1(v_0,x_T  ,HWindSpeed)),'%5.4f');
         else
-            MyBlPitch   = num2str(0);
+            MyBlPitch   = num2str(0.9875);
             MyRotSpeed  = num2str(7.85);
-            MyTTDspFA   = num2str(0);
+            MyTTDspFA   = num2str(-0.2754);
         end               
-%         ManipulateTXTFile(EDFile,'MyBlPitch', MyBlPitch);
-%         ManipulateTXTFile(EDFile,'MyRotSpeed',MyRotSpeed);
-%         ManipulateTXTFile(EDFile,'MyTTDspFA', MyTTDspFA);                 
+        ManipulateTXTFile(EDFile,'MyBlPitch', MyBlPitch);
+        ManipulateTXTFile(EDFile,'MyRotSpeed',MyRotSpeed);
+        ManipulateTXTFile(EDFile,'MyTTDspFA', MyTTDspFA);                 
 
         % Run FB 
         dos([FASTexeFile,' ',SimulationName,'.fst']);
@@ -90,9 +90,9 @@ for i_HWindSpeed    = 1:n_HWindSpeed
                         '10.0                   HWindSpeed');
                     
         % Reset the ElastoDyn file again
-%         ManipulateTXTFile(EDFile,MyBlPitch,'MyBlPitch');
-%         ManipulateTXTFile(EDFile,MyRotSpeed,'MyRotSpeed');
-%         ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspFA');
+        ManipulateTXTFile(EDFile,MyBlPitch,'MyBlPitch');
+        ManipulateTXTFile(EDFile,MyRotSpeed,'MyRotSpeed');
+        ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspFA');
     end
 end
 

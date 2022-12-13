@@ -30,7 +30,7 @@ nOverlap            = [];                       % [-]           samples of overl
 TurbSimExeFile      = 'TurbSim_x64.exe';
 FASTexeFile         = 'openfast_x64.exe';
 FASTmapFile         = 'MAP_x64.lib';
-SimulationName      = 'IEA-15-240-RWT-UMaineSemi';
+SimulationName      = 'IEA-15-255-RWT-UMaineSemi';
 TurbSimTemplateFile = 'TurbSim2aInputFileTemplateIEA15MW.inp';
 if ~exist('TurbulentWind','dir')
     mkdir TurbulentWind
@@ -71,7 +71,7 @@ for iSample = 1:nSample
     % Adjust the InflowWind file
     Seed                = Seed_vec(iSample);
     WindFileRoot        = ['TurbulentWind\URef_18_Seed_',num2str(Seed,'%02d')];
-    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat','MyFilenameRoot',WindFileRoot);
+    ManipulateTXTFile('IEA-15-255-RWT_UMaineSemi_InflowFile.dat','MyFilenameRoot',WindFileRoot);
     
     % Run FB    
     FASTresultFile      = ['SimulationResultsTurbulentWind\URef_18_Seed_TurbulentWind',num2str(Seed,'%02d'),'.outb'];
@@ -81,7 +81,7 @@ for iSample = 1:nSample
     end
    
     % Reset the InflowWind file again
-    ManipulateTXTFile('IEA-15-240-RWT-UMaineSemi_InflowFile.dat',WindFileRoot,'MyFilenameRoot');
+    ManipulateTXTFile('IEA-15-255-RWT_UMaineSemi_InflowFile.dat',WindFileRoot,'MyFilenameRoot');
 end
 
 % Clean up
