@@ -16,9 +16,9 @@
 clearvars;close all;clc;
 
 %% Design
-OPs         = [12 16 20 24];
-D_d         = 0.7;
-omega_d     = 0.5;
+OPs         = [12 14 18 24];
+D_d         = 2.5;
+omega_d     = 1.0;
 
 %% Default Parameter Turbine and Controller
 Parameter                       = NREL5MWDefaultParameter_SLOW1DOF;
@@ -37,7 +37,7 @@ for iOP=1:nOP
     OP = OPs(iOP);
     
     % Linearize at each operation point
-    index = find(abs(SteadyStates.v_0 - OP) < 0.05);
+    index = find(abs(SteadyStates.v_0 - OP) < 0.043);
     v_0_OP = OPs(iOP);
     Omega_OP = SteadyStates.Omega(index);
     theta_OP = SteadyStates.theta(index);
@@ -58,4 +58,4 @@ end
 fprintf('Parameter.CPC.GS.theta                  = [%s];\n',sprintf('%f ',theta));
 fprintf('Parameter.CPC.GS.kp                     = [%s];\n',sprintf('%f ',kp));
 fprintf('Parameter.CPC.GS.Ti                     = [%s];\n',sprintf('%f ',Ti));  
- 
+fprintf('Parameter.CPC.GS.ki                     = [%s];\n',sprintf('%f ',ki)); 

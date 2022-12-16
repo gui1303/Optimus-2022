@@ -1,3 +1,4 @@
+
 ! Controller parameter input file for the IEA-15-240-RWT-UMaineSemi wind turbine
 !    - File written using ROSCO version 2.5.0 controller tuning logic on 07/22/22
 
@@ -36,12 +37,12 @@
 10.461600  1.000000  ! F_FlpCornerFreq   - Corner frequency and damping in the second order low pass filter of the blade root bending moment for flap control [rad/s, -].
 
 !------- BLADE PITCH CONTROL ----------------------------------------------
-2                   ! PC_GS_n			- Amount of gain-scheduling table entries
-0.000000  1.5708  	! PC_GS_angles	    - Gain-schedule table: pitch angles [rad].
--0.00400  -0.00400  ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
--0.00040  -0.00040  ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
-0.000000  0.000000  ! PC_GS_KD			- Gain-schedule table: pitch controller kd gains
-0.000000  0.000000  ! PC_GS_TF		
+6                   ! PC_GS_n			- Amount of gain-scheduling table entries
+0.000000 0.095867 0.185201 0.253213 0.321743 1.5708  	! PC_GS_angles	    - Gain-schedule table: pitch angles [rad].
+-0.00400 -0.004337 -0.003518 -0.0023245 -0.0020932 -0.00100  ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
+-0.0020 -0.00146492951689178	-0.000515071623456885	-0.000489593382461997	-0.000403802791590734 -0.00010  ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
+0.000000 0.000000  0.000000 0.000000  0.000000 0.000000  ! PC_GS_KD			- Gain-schedule table: pitch controller kd gains
+0.000000 0.000000  0.000000 0.000000  0.000000 0.000000  ! PC_GS_TF		
 1.570000000000      ! PC_MaxPit			- Maximum physical pitch limit, [rad].
 0.000000000000      ! PC_MinPit			- Minimum physical pitch limit, [rad].
 0.0024900000000      ! PC_MaxRat			- Maximum pitch rate (in absolute value) in pitch controller, [rad/s].
@@ -64,7 +65,7 @@
 94450.00000000      ! VS_MaxRat			- Maximum torque rate (in absolute value) in torque controller, [Nm/s].
 410800.7785300      ! VS_MaxTq			- Maximum generator torque in Region 3 (HSS side), [Nm].
 0.000000000000      ! VS_MinTq			- Minimum generator torque (HSS side), [Nm].
-24.02839000000      ! VS_MinOMSpd		- Minimum generator speed [rad/s]
+30.02839000000      ! VS_MinOMSpd		- Minimum generator speed [rad/s]
 173.6453400000      ! VS_Rgn2K			- Generator torque constant in Region 2 (HSS side), [Nm/(rad/s)^2]
 17000000.00000      ! VS_RtPwr			- Wind turbine rated power [W]
 376574.7776693366   ! VS_RtTq			- Rated torque, [Nm].
@@ -116,7 +117,7 @@
 0.418880000000      ! SD_CornerFreq     - Cutoff Frequency for first order low-pass filter for blade pitch angle, [rad/s]
 
 !------- Floating -----------------------------------------------------------
--9.332720000000      ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]
+2.332720000000      ! Fl_Kp             - Nacelle pitching proportional feedback gain [s]
 
 !------- FLAP ACTUATION -----------------------------------------------------
 0.000000000000      ! Flp_Angle         - Initial or steady state flap angle [rad]

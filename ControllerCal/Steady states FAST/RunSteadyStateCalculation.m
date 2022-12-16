@@ -16,8 +16,8 @@ addpath('..\..\MatlabFunctions');
 SaveFlag                = true;    % [true/false]  flag to overwrite SteadyStatesIEA15MW_Monopile_ROSCO_FAST
 PlotTimeSignalsFlag     = false;     % [true/false]  flag to plot time results (might be too much for a lot of simulations)    
 AdjustSteadyStatesFlag  = true;     % [true/false]  flag to load steady states (set false in the first iteration)
-HWindSpeed_vec          = 4:0.2:30;   % [m/s]         range of wind speeds (operation points)
-n_Rotation              = 5;        % [-]           number of rotations considered
+HWindSpeed_vec          = 4:0.1:30;   % [m/s]         range of wind speeds (operation points)
+n_Rotation              = 6;        % [-]           number of rotations considered
 SteadyStateFile         = 'SteadyStatesOptimus.mat';
 Info                    = 'Created by RunSteadyStateCalculation.m of example IEA15MW_09.'; 
 

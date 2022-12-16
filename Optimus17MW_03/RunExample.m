@@ -113,39 +113,39 @@ for iSample = 1:nSample
     FB_TurbulentWind     = ReadFASTbinaryIntoStruct(FASTresultFile);
 
 %     % Plot time results
-%     figure('Name','Time results for rotor speed')
-%     hold on; grid on; box on
-%     plot(FB_TurbulentWind.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
-%     ylabel('Rotor speed');
-%     xlabel('time [s]')
-%     xlim([0 630]);
-%     hold off
-%     
-%     figure('Name','Time results for platform pitch')
-%     hold on; grid on; box on
-%     plot(FB_TurbulentWind.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
-%     ylabel('Platform pitch [deg]');
-%     xlabel('time [s]')
-%     xlim([0 630]);
-%     hold off
-%     
-%     figure('Name','Time results for blade pitch')
-%     hold on; grid on; box on
-%     plot(FB_TurbulentWind.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
-%     ylabel('Blade pitch [deg]');
-%     xlabel('time [s]')
-%     xlim([0 630]);
-%     hold off
-%     
-%     figure('Name','Time results for electric power')
-%     hold on; grid on; box on
-%     plot(FB_TurbulentWind.GenPwr,'Color',[0.8500 0.3250 0.0980]);
-%     ylabel('Electric power [kW]');
-%     xlabel('time [s]')
-%     xlim([0 630]);
-%     hold off
-%     
-%     
+    figure('Name','Time results for rotor speed')
+    hold on; grid on; box on
+    plot(FB_TurbulentWind.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
+    ylabel('Rotor speed');
+    xlabel('time [s]')
+    xlim([0 630]);
+    hold off
+    
+    figure('Name','Time results for platform pitch')
+    hold on; grid on; box on
+    plot(FB_TurbulentWind.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
+    ylabel('Platform pitch [deg]');
+    xlabel('time [s]')
+    xlim([0 630]);
+    hold off
+    
+    figure('Name','Time results for blade pitch')
+    hold on; grid on; box on
+    plot(FB_TurbulentWind.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
+    ylabel('Blade pitch [deg]');
+    xlabel('time [s]')
+    xlim([0 630]);
+    hold off
+    
+    figure('Name','Time results for electric power')
+    hold on; grid on; box on
+    plot(FB_TurbulentWind.GenPwr,'Color',[0.8500 0.3250 0.0980]);
+    ylabel('Electric power [kW]');
+    xlabel('time [s]')
+    xlim([0 630]);
+    hold off
+    
+    
 
     % Load data for all wind fields in one variable to make the average
     for iSamplePoints = 1:SimSamplingPoints
@@ -154,11 +154,11 @@ for iSample = 1:nSample
         vPtfmPitchTurbulentWind(iSamplePoints,iSample) = FB_TurbulentWind.PtfmPitch(iSamplePoints);
     end
     % Estimate spectra
-    Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
-   [S_BldPitch1_TurbulenWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.BldPitch1  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-   [S_RotSpeed_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.RotSpeed  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-   [S_PtfmPitch_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.PtfmPitch  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-    
+%     Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
+%    [S_BldPitch1_TurbulenWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.BldPitch1  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+%    [S_RotSpeed_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.RotSpeed  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+%    [S_PtfmPitch_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.PtfmPitch  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+%     
 end
 
 
