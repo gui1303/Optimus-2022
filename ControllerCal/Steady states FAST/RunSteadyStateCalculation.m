@@ -178,7 +178,7 @@ ylabel({'STD(RotSpeed)';'[rpm]'});
 
 MyAxes(2) = subplot(n,1,2);
 hold on; grid on; box on
-plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
+%plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
 ylabel({'STD(TTDspFA)';'[m]'});
 
 xlabel('wind speed [m/s]')

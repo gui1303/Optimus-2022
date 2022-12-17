@@ -62,9 +62,9 @@
 95.55000000000      ! VS_GenEff			- Generator efficiency mechanical power -> electrical power, [should match the efficiency defined in the generator properties!], [%]
 377363.7330900      ! VS_ArSatTq		- Above rated generator torque PI control saturation, [Nm]
 94450.00000000      ! VS_MaxRat			- Maximum torque rate (in absolute value) in torque controller, [Nm/s].
-415100.1064000      ! VS_MaxTq			- Maximum generator torque in Region 3 (HSS side), [Nm].
+377363.7330900      ! VS_MaxTq			- Maximum generator torque in Region 3 (HSS side), [Nm].
 0.000000000000      ! VS_MinTq			- Minimum generator torque (HSS side), [Nm].
-27.29831000000      ! VS_MinOMSpd		- Minimum generator speed [rad/s]
+0.000000000000      ! VS_MinOMSpd		- Minimum generator speed [rad/s]
 271.6453400000      ! VS_Rgn2K			- Generator torque constant in Region 2 (HSS side), [Nm/(rad/s)^2]
 17000000.00000      ! VS_RtPwr			- Wind turbine rated power [W]
 377363.7330900      ! VS_RtTq			- Rated torque, [Nm].

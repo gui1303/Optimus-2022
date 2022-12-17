@@ -14,7 +14,7 @@ clc;
 addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
-vWindSpeed          = 20:4:20;
+vWindSpeed          = 4:4:28;
 NumSim              = length(vWindSpeed);
 
 % Files (should not be be changed)
@@ -26,7 +26,12 @@ if ~exist('SimulationResultsConstant','dir')
     mkdir SimulationResultsConstant
 end
 
-
+% Copy controller files and ED
+% copyfile('..\Latest files\ROSCO_v2d6.IN')
+% copyfile('..\Latest files\Cp_Ct_Cq.IEA15MW.txt')
+% copyfile('..\Latest files\IEA-15-255-RWT-UMaineSemi_ElastoDyn.dat')
+% copyfile('..\Latest files\IEA-15-255-RWT-UMaineSemi_ServoDyn.dat')
+% copyfile('..\Latest files\ROSCO_v2d6.dll')
 %% Processing: run simulations with constant wind
 
 % Copy the adequate OpenFAST version to the example folder
@@ -101,6 +106,11 @@ end
 
 delete(FASTexeFile)
 delete(FASTmapFile)
+% delete('ROSCO_v2d6.IN')
+% delete('Cp_Ct_Cq.IEA15MW.txt')
+% delete('IEA-15-255-RWT-UMaineSemi_ElastoDyn.dat')
+% delete('IEA-15-255-RWT-UMaineSemi_ServoDyn.dat')
+% delete('ROSCO_v2d6.dll')
 
 
 
