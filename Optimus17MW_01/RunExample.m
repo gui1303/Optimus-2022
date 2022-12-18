@@ -14,7 +14,7 @@ clc;
 addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
-vWindSpeed          = 12:2:18;
+vWindSpeed          = 20:4:20;
 NumSim              = length(vWindSpeed);
 
 % Files (should not be be changed)
