@@ -21,7 +21,7 @@ D_d         = 0.7;
 omega_d     = 0.5;
 
 %% Default Parameter Turbine and Controller
-Parameter                       = NREL5MWDefaultParameter_SLOW2DOF;
+Parameter                       = OptimusDefaultParameter_SLOW2DOF;
 Parameter.VSC.P_a_rated       	= 17e6/Parameter.Generator.eta_el;   % [W]
 SteadyStates                    = load('SteadyStatesOptimus','v_0','Omega','theta');                       
 
@@ -50,6 +50,7 @@ for iOP=1:nOP
     ki = -omega_d^2/(b1*c);
     Ti(iOP) = kp(iOP)/ki;
     theta(iOP) = theta_OP;
+    ki  =  kp/Ti;
     
     
     
@@ -57,4 +58,4 @@ end
 
 fprintf('Parameter.CPC.GS.kp                     = [%s];\n',sprintf('%f ',kp));
 fprintf('Parameter.CPC.GS.Ti                     = [%s];\n',sprintf('%f ',Ti));  
- 
+fprintf('Parameter.CPC.GS.ki                     = [%s];\n',sprintf('%f ',ki));

@@ -17,8 +17,8 @@ clearvars;close all;clc;
 
 %% Design
 OPs         = [12 14 18 24];
-D_d         = 2.5;
-omega_d     = 1.0;
+D_d         = 1.8;
+omega_d     = 0.15;
 
 %% Default Parameter Turbine and Controller
 Parameter                       = NREL5MWDefaultParameter_SLOW1DOF;

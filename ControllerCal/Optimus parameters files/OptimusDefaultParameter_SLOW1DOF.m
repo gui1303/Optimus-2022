@@ -19,8 +19,8 @@ Parameter.General.rho               = 1.225;         	% [kg/m^3]  air density
 Parameter.Turbine.i             	= 1/57.35;             % [-]       gearbox ratio
 Parameter.Turbine.R              	= 255/2;            % [m]       Rotor radius
 Parameter.Turbine.SS             	= load('PowerAndThrustCoefficientsNREL5MW','c_P','theta','lambda'); % load Power coefficient look-up-table
-J_G                               	= 3*534.116;          % [kgm^2]	generator inertia about high-speed shaft
-J_R                                	= 3*3.8759e+007;      % [kgm^2]	rotor inertia about low-speed shaft
+J_G                               	= 1.5*534.116;          % [kgm^2]	generator inertia about high-speed shaft
+J_R                                	= 491425312;      % [kgm^2]	rotor inertia about low-speed shaft
 Parameter.Turbine.J                	= J_R+J_G/Parameter.Turbine.i^2; % [kgm^2] sum of moments of inertia about low-speed shaft
 
 %% Generator

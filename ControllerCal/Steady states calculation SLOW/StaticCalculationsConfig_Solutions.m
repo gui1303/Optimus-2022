@@ -46,8 +46,8 @@ switch CalculationName
 
   
         %% Default
-        Parameter                       	= NREL5MWDefaultParameter_SLOW2DOF;
-        Parameter                           = NREL5MWDefaultParameter_FBSWE(Parameter);           
+        Parameter                       	= OptimusDefaultParameter_SLOW2DOF;
+        Parameter                           = OptimusDefaultParameter_FBSWE(Parameter);           
 
         
         %% NonlinearStateFeedback
@@ -104,8 +104,8 @@ switch CalculationName
 
   
         %% Default
-        Parameter                       	= NREL5MWDefaultParameter_SLOW2DOF;
-        Parameter                           = NREL5MWDefaultParameter_FBNREL(Parameter);           
+        Parameter                       	= OptimusDefaultParameter_SLOW2DOF;
+        Parameter                           = OptimusDefaultParameter_FBSWE(Parameter);        
 
         
         %% NonlinearStateFeedback

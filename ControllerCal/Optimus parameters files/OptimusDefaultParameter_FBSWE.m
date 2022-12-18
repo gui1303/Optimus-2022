@@ -6,9 +6,9 @@ function [Parameter] = NREL5MWDefaultParameter_FBSWE(Parameter)
 % and omega_0_d = [0.500000 ]
 % at v_0   = [12.000000 16.000000 20.000000 24.000000 ] 
 theta      = [0.095867 0.185201 0.253213 0.321743  ];
-kp         = [0.008337 0.006518 0.007245 0.007932 ];
-Ti         = [3.382438 5.664518 8.144531 9.867916 ];
-ki         = [0.002464929516892,0.001150716234569,8.895933824619974e-04,8.038027915907341e-04];
+kp         = [0.006760 0.005721 0.006068 0.007417 ];
+Ti         = [30.471531 40.922070 72.367373 102.532398 ];
+ki         = [0.000222 0.000140 0.000084 0.000072 ];
 % ---
 Parameter.CPC.GS.theta                  = theta;                            % [rad]
 Parameter.CPC.GS.kp                     = kp;                               % [s]
@@ -28,17 +28,17 @@ Parameter.VSC.M_g_rated                 = P_el_rated/Parameter.Generator.eta_el/
 Parameter.VSC.P_a_rated                 = P_el_rated/Parameter.Generator.eta_el;  % [W]
 
 
-Parameter.VSC.Omega_g_1d5               = rpm2radPs(4)/Parameter.Turbine.i; % [rad/s];  
-Parameter.VSC.kp                        = 38557.545594;
-Parameter.VSC.Ti                        = 4.173413 ; 
-Parameter.VSC.ki                        = 9.238851256325397e+03; 
+Parameter.VSC.Omega_g_1d5               = 27; % [rad/s];  
+Parameter.VSC.kp                        = 117839.235787;
+Parameter.VSC.Ti                        = 3.137883 ; 
+Parameter.VSC.ki                        = 37553.740611; 
 
 Parameter.VSC.M_g_max                   = Parameter.VSC.M_g_rated*1.1;      % [Nm] 
 
 %% Set-Point-Fading
 Parameter.VSC.Delta_Omega_g             = 0.10*Parameter.CPC.Omega_g_rated; % [rad/s]   % over-/under-speed limit for setpoint-fading, first guess
-Parameter.VSC.Delta_theta               = deg2rad(25);                      % [rad]     % change of pitch angle at which under-speed limit should be reached, brute-force-optimized
-Parameter.VSC.Delta_P                   = 5e6;                          	% [W]       % change of power at which over-speed limit should be reached, first guess
+Parameter.VSC.Delta_theta               = deg2rad(20);                      % [rad]     % change of pitch angle at which under-speed limit should be reached, brute-force-optimized
+Parameter.VSC.Delta_P                   = 17e6;                          	% [W]       % change of power at which over-speed limit should be reached, first guess
 Parameter.Filter.LowPass2.f_cutoff     	= 0.1;                              % [Hz]      % cut-off-frequency for low pass filter for setpoint-fading, first guess
 
 
