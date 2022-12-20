@@ -115,10 +115,12 @@ Omega           = NaN(1,n_HWindSpeed);
 theta           = NaN(1,n_HWindSpeed);
 x_T             = NaN(1,n_HWindSpeed);
 M_g             = NaN(1,n_HWindSpeed);
+GenPwr          = NaN(1,n_HWindSpeed);
 
 % allocation of evaluation values
 STD_Omega       = NaN(1,n_HWindSpeed);
 STD_x_T         = NaN(1,n_HWindSpeed);
+STD_GenPwr      = NaN(1,n_HWindSpeed);
 RotSpeedCell    = cell(1,n_HWindSpeed);
 TTDspFACell     = cell(1,n_HWindSpeed);
 
@@ -144,11 +146,13 @@ for i_HWindSpeed = 1:n_HWindSpeed
     theta(i_HWindSpeed)     = deg2rad  (mean(FB.BldPitch1(Considered)));
     M_g(i_HWindSpeed)       = 1e3*     (mean(FB.GenTq    (Considered)));
     Omega(i_HWindSpeed)     = rpm2radPs(mean(FB.RotSpeed (Considered)));
-    x_T(i_HWindSpeed)       =          (mean(FB.TTDspFA  (Considered)));    
+    x_T(i_HWindSpeed)       =          (mean(FB.TTDspFA  (Considered)));
+    GenPwr(i_HWindSpeed)    =          (mean(FB.GenPwr v (Considered)));
     
 	% Calculate standard deviation
     STD_Omega(i_HWindSpeed)	= rpm2radPs(std(FB.RotSpeed  (Considered)));
     STD_x_T(i_HWindSpeed)	=          (std(FB.TTDspFA   (Considered)));
+    STD_GenPwr(i_HWindSpeed)=          (std(FB.GenPwr    (Considered)));
     
     % Store time signals, if requested
     if PlotTimeSignalsFlag
@@ -160,7 +164,7 @@ end
 
 % Save if requested
 if SaveFlag
-    save(SteadyStateFile,'v_0','theta','Omega','x_T','M_g','Info');
+    save(SteadyStateFile,'v_0','theta','Omega','x_T','M_g','GenPwr','Info');
 end
 
 % Plot config
@@ -178,7 +182,7 @@ ylabel({'STD(RotSpeed)';'[rpm]'});
 
 MyAxes(2) = subplot(n,1,2);
 hold on; grid on; box on
-%plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
+plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
 ylabel({'STD(TTDspFA)';'[m]'});
 
 xlabel('wind speed [m/s]')
@@ -204,10 +208,15 @@ hold on; grid on; box on
 plot(v_0,radPs2rpm(Omega),'.-','MarkerSize',MyMarkerSize);
 ylabel({'RotSpeed';'[rpm]'});
 
+% MyAxes(4) = subplot(n,1,4);
+% hold on; grid on; box on
+% plot(v_0,x_T,'.-','MarkerSize',MyMarkerSize);
+% ylabel({'TTDspFA';'[m]'});
+
 MyAxes(4) = subplot(n,1,4);
 hold on; grid on; box on
-plot(v_0,x_T,'.-','MarkerSize',MyMarkerSize);
-ylabel({'TTDspFA';'[m]'});
+plot(v_0,GenPwr/1e6,'.-','MarkerSize',MyMarkerSize);
+ylabel({'Generator power';'[MW]'});
 
 xlabel('wind speed [m/s]')
 linkaxes(MyAxes,'x');

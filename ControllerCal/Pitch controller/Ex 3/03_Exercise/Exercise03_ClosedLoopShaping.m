@@ -17,11 +17,11 @@ clearvars;close all;clc;
 
 %% Design
 OPs         = [12 14 18 24];
-D_d         = 1.8;
+D_d         = 1.2;
 omega_d     = 0.15;
 
 %% Default Parameter Turbine and Controller
-Parameter                       = NREL5MWDefaultParameter_SLOW1DOF;
+Parameter                       = OptimusDefaultParameter_SLOW1DOF;
 Parameter.VSC.P_a_rated       	= 17e6/Parameter.Generator.eta_el;   % [W]
 SteadyStates                    = load('SteadyStatesOptimus','v_0','Omega','theta');                       
 

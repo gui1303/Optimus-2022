@@ -21,7 +21,7 @@ D_d         = 0.7;
 omega_d     = 0.5;
 
 %% Default Parameter Turbine and Controller
-Parameter                       = OptimusDefaultParameter_SLOW2DOF;
+Parameter                       = OptimusDefaultParameter_SLOW1DOF;
 Parameter.VSC.P_a_rated       	= 17e6/Parameter.Generator.eta_el;   % [W]
 SteadyStates                    = load('SteadyStatesOptimus','v_0','Omega','theta');                       
 

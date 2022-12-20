@@ -21,7 +21,7 @@ Seed_vec            = [1:nSample];              % [-]           vector of seeds
 
 % Parameters postprocessing (can be adjusted, but will provide different results)
 t_start             = 30;                       % [-]           ignore data before for STD and spectra
-nDataPerBlock       = 600*40;                   % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
+nDataPerBlock       = 600*2;                   % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
 vWindow             = hamming(nDataPerBlock);   % [-]           window for estimation
 nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
 nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
@@ -95,12 +95,14 @@ delete(FASTmapFile)
 %% Obtain number of sampling points of the simulation
 Seed                = 1;   
 FASTresultFile      = ['SimulationResultsTurbulentWind\URef_18_Seed_TurbulentWind',num2str(Seed,'%02d'),'.outb'];
-FB_TurbulentWind     = ReadFASTbinaryIntoStruct(FASTresultFile);
+FB_TurbulentWind    = ReadFASTbinaryIntoStruct(FASTresultFile);
 SimSamplingPoints   = size(FB_TurbulentWind.Time,1);
 clear Seed FASTresultFile FB_TurbulentWind
 
 %% Postprocessing: evaluate data with turbulent wind
 %S_PtfmPitch_FB_est = NaN(nSample);
+%Initialize avg power vector
+AvgGenPwr                = NaN(nSample,1);
 vRotSpeedTurbulentWind   = NaN(SimSamplingPoints,nSample);
 vBldPitchTurbulentWind   = NaN(SimSamplingPoints,nSample);
 vPtfmPitchTurbulentWind  = NaN(SimSamplingPoints,nSample);
@@ -110,12 +112,13 @@ for iSample = 1:nSample
     Seed                = Seed_vec(iSample);
     
     FASTresultFile      = ['SimulationResultsTurbulentWind\URef_18_Seed_TurbulentWind',num2str(Seed,'%02d'),'.outb'];
-    FB_TurbulentWind     = ReadFASTbinaryIntoStruct(FASTresultFile);
+    FB_TurbulentWind    = ReadFASTbinaryIntoStruct(FASTresultFile);
+    AvgGenPwr(iSample)  = mean(FB_TurbulentWind.GenPwr);
 
 %     % Plot time results
     figure('Name','Time results for rotor speed')
     hold on; grid on; box on
-    plot(FB_TurbulentWind.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
+    plot(FB_TurbulentWind.Time,FB_TurbulentWind.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Rotor speed');
     xlabel('time [s]')
     xlim([0 630]);
@@ -123,7 +126,7 @@ for iSample = 1:nSample
     
     figure('Name','Time results for platform pitch')
     hold on; grid on; box on
-    plot(FB_TurbulentWind.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
+    plot(FB_TurbulentWind.Time,FB_TurbulentWind.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Platform pitch [deg]');
     xlabel('time [s]')
     xlim([0 630]);
@@ -131,7 +134,7 @@ for iSample = 1:nSample
     
     figure('Name','Time results for blade pitch')
     hold on; grid on; box on
-    plot(FB_TurbulentWind.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
+    plot(FB_TurbulentWind.Time,FB_TurbulentWind.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Blade pitch [deg]');
     xlabel('time [s]')
     xlim([0 630]);
@@ -139,7 +142,7 @@ for iSample = 1:nSample
     
     figure('Name','Time results for electric power')
     hold on; grid on; box on
-    plot(FB_TurbulentWind.GenPwr,'Color',[0.8500 0.3250 0.0980]);
+    plot(FB_TurbulentWind.Time,FB_TurbulentWind.GenPwr,'Color',[0.8500 0.3250 0.0980]);
     ylabel('Electric power [kW]');
     xlabel('time [s]')
     xlim([0 630]);
@@ -154,43 +157,45 @@ for iSample = 1:nSample
         vPtfmPitchTurbulentWind(iSamplePoints,iSample) = FB_TurbulentWind.PtfmPitch(iSamplePoints);
     end
     % Estimate spectra
-%     Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
-%    [S_BldPitch1_TurbulenWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.BldPitch1  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-%    [S_RotSpeed_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.RotSpeed  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-%    [S_PtfmPitch_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.PtfmPitch  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
-%     
+    Fs                                      = 40; % [Hz]  sampling frequenzy, same as in *.fst
+   [S_BldPitch1_TurbulenWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.BldPitch1  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_RotSpeed_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.RotSpeed  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+   [S_PtfmPitch_TurbulentWind(iSample,:),f_est]	= pwelch(detrend(FB_TurbulentWind.PtfmPitch  (FB_TurbulentWind.Time  >t_start)),vWindow,nOverlap,nFFT,Fs);
+    
 end
 
 
-% %% Plot spectra
-% figure('Name','Simulation results - platform pitch')
-% 
-% hold on; grid on; box on
-% p1 = plot(f_est ,mean(S_PtfmPitch_TurbulentWind,1),'-','Color',[0.8500 0.3250 0.0980]);
-% set(gca,'Xscale','log')
-% set(gca,'Yscale','log')
-% xlabel('Frequency [Hz] ')
-% ylabel('Spectra Platform Pitch [(deg)^2Hz^{-1}]') 
-% hold off 
-% 
-% 
-% figure('Name','Simulation results - rotor speed')
-% 
-% hold on; grid on; box on
-% p1 = plot(f_est ,mean(S_RotSpeed_TurbulentWind,1),'-','Color',[0.8500 0.3250 0.0980]);
-% set(gca,'Xscale','log')
-% set(gca,'Yscale','log')
-% xlabel('Frequency [Hz] ')
-% ylabel('Spectra Rotor Speed [(rpm)^2Hz^{-1}]') 
-% hold off
-% 
-% 
-% figure('Name','Simulation results - blade pitch')
-% 
-% hold on; grid on; box on
-% p1 = plot(f_est ,mean(S_BldPitch1_TurbulenWind,1),'-','Color',[0.8500 0.3250 0.0980]);
-% set(gca,'Xscale','log')
-% set(gca,'Yscale','log')
-% xlabel('Frequency [Hz] ')
-% ylabel('Spectra Blade Pitch [(deg)^2Hz^{-1}]') 
-% hold off
+% %% Plot avg spectra
+figure('Name','Simulation results - platform pitch')
+
+hold on; grid on; box on
+p1 = plot(f_est ,mean(S_PtfmPitch_TurbulentWind,1),'-','Color',[0.8500 0.3250 0.0980]);
+set(gca,'Xscale','log')
+set(gca,'Yscale','log')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Platform Pitch [(deg)^2Hz^{-1}]') 
+hold off 
+
+
+figure('Name','Simulation results - rotor speed')
+
+hold on; grid on; box on
+p1 = plot(f_est ,mean(S_RotSpeed_TurbulentWind,1),'-','Color',[0.8500 0.3250 0.0980]);
+set(gca,'Xscale','log')
+set(gca,'Yscale','log')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Rotor Speed [(rpm)^2Hz^{-1}]') 
+hold off
+
+
+figure('Name','Simulation results - blade pitch')
+
+hold on; grid on; box on
+p1 = plot(f_est ,mean(S_BldPitch1_TurbulenWind,1),'-','Color',[0.8500 0.3250 0.0980]);
+set(gca,'Xscale','log')
+set(gca,'Yscale','log')
+xlabel('Frequency [Hz] ')
+ylabel('Spectra Blade Pitch [(deg)^2Hz^{-1}]') 
+hold off
+
+AvgPwr = mean(AvgGenPwr)
