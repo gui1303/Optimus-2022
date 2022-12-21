@@ -107,9 +107,9 @@
 0.0                 ! FA_IntSat			- Integrator saturation (maximum signal amplitude contribution to pitch from FA damper), [rad]
 
 !------- MINIMUM PITCH SATURATION -------------------------------------------
-60                  ! PS_BldPitchMin_N  - Number of values in minimum blade pitch lookup table (should equal number of values in PS_WindSpeeds and PS_BldPitchMin)
-4.0000 4.2414 4.4828 4.7241 4.9655 5.2069 5.4483 5.6897 5.9310 6.1724 6.4138 6.6552 6.8966 7.1379 7.3793 7.6207 7.8621 8.1034 8.3448 8.5862 8.8276 9.0690 9.3103 9.5517 9.7931 10.0345 10.2759 10.5172 10.7586 11.0000 11.6333 12.2667 12.9000 13.5333 14.1667 14.8000 15.4333 16.0667 16.7000 17.3333 17.9667 18.6000 19.2333 19.8667 20.5000 21.1333 21.7667 22.4000 23.0333 23.6667 24.3000 24.9333 25.5667 26.2000 26.8333 27.4667 28.1000 28.7333 29.3667 30.0000               ! PS_WindSpeeds     - Wind speeds corresponding to minimum blade pitch angles [m/s]
-0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00127686 0.01419210 0.02560863 0.03596264 0.04503446 0.05129084 0.06482978 0.07747140 0.08952954 0.10110195 0.11233196 0.12331760 0.13401864 0.14454282 0.15489490 0.16506189 0.17513200 0.18501579 0.19482801 0.20450653 0.21409863 0.22360165 0.23300603 0.24235486 0.25158846 0.26080039 0.26988481 0.27896733 0.28790791 0.29686438 0.30568011 0.31451712 0.32321402 0.33193435 0.34051901 0.34913824               ! PS_BldPitchMin    - Minimum blade pitch angles [rad]
+2                ! PS_BldPitchMin_N  - Number of values in minimum blade pitch lookup table (should equal number of values in PS_WindSpeeds and PS_BldPitchMin)
+4.0000 30               ! PS_WindSpeeds     - Wind speeds corresponding to minimum blade pitch angles [m/s]
+0.00000000  0.00000000             ! PS_BldPitchMin    - Minimum blade pitch angles [rad]
 
 !------- SHUTDOWN -----------------------------------------------------------
 0.698100000000      ! SD_MaxPit         - Maximum blade pitch angle to initiate shutdown, [rad]
