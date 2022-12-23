@@ -1,0 +1,18 @@
+Files:
+
+-getOPs: read steady states generated with OpenFAST to obtain 
+pitch angle at each one of the selected operational points and
+interpolate the kp. The maximum and minimum values for kp were 
+fixed based on two extrems: the minimum is the value where the stability
+between 13 and 16m/s was achieved, and the maximum where tower strike 
+above 28m/s was avoided. 
+
+-RunExample: run simulations with constant wind.
+
+
+
+This folder contains the latest struct and aero data, 
+as well as the latest ED values for the turbine properties. 
+
+
+

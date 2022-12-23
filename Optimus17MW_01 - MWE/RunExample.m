@@ -51,7 +51,7 @@ hold off
 
 figure('Name','Time results for electric power')
 hold on; grid on; box on
-plot(FB_Constant.Time,FB_Constant.RotPwr/1000,'Color',[0.8500 0.3250 0.0980]);
+plot(FB_Constant.Time,FB_Constant.GenPwr/1000,'Color',[0.8500 0.3250 0.0980]);
 ylabel('Electric power [MW]');
 xlabel('time [s]')
 hold off
