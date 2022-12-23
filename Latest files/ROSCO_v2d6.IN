@@ -38,8 +38,8 @@
 !------- BLADE PITCH CONTROL ----------------------------------------------
 4                  ! PC_GS_n			- Amount of gain-scheduling table entries
 0.072353 0.122746 0.227420 0.331627    ! PC_GS_angles	    - Gain-schedule table: pitch angles [rad].
--0.001500 -0.001986 -0.002995 -0.004000              ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
--0.000150 -0.000199 -0.000300 -0.000400               ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
+-0.001000 -0.001972 -0.003990 -0.006000              ! PC_GS_KP		- Gain-schedule table: pitch controller kp gains [s].
+-0.000100 -0.000197 -0.000399 -0.000600              ! PC_GS_KI		- Gain-schedule table: pitch controller ki gains [-].
 0.000000  0.000000 0.000000  0.000000                 ! PC_GS_KD			- Gain-schedule table: pitch controller kd gains
 0.000000  0.000000 0.000000  0.000000                  ! PC_GS_TF			- Gain-schedule table: pitch controller tf gains (derivative filter)
 1.570000000000      ! PC_MaxPit			- Maximum physical pitch limit, [rad].
