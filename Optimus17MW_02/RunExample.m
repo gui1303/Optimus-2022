@@ -15,12 +15,6 @@ clc;
 addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
-% Parameters postprocessing (can be adjusted, but will provide different results)
-t_start             = 30;                       % [-]           ignore data before for STD and spectra
-nDataPerBlock       = 600*40;                   % [-]           data per block, here 2^14/80 s = 204.8 s, so we have a frequency resolution of 1/204.8 Hz = 0.0049 Hz  
-vWindow             = hamming(nDataPerBlock);   % [-]           window for estimation
-nFFT                = [];                       % [-]           number of FFT, default: nextpow2(nDataPerBlock); 
-nOverlap            = [];                       % [-]           samples of overlap, default: 50% overlap
 
 % Files (should not be be changed)
 FASTexeFile         = 'openfast_x64.exe';

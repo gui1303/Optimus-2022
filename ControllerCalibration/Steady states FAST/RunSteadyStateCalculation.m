@@ -16,7 +16,7 @@ addpath('..\..\MatlabFunctions');
 SaveFlag                = true;    % [true/false]  flag to overwrite SteadyStatesIEA15MW_Monopile_ROSCO_FAST
 PlotTimeSignalsFlag     = false;     % [true/false]  flag to plot time results (might be too much for a lot of simulations)    
 AdjustSteadyStatesFlag  = true;     % [true/false]  flag to load steady states (set false in the first iteration)
-HWindSpeed_vec          = 4:0.25:30;   % [m/s]         range of wind speeds (operation points)
+HWindSpeed_vec          = 4:0.5:30;   % [m/s]         range of wind speeds (operation points)
 n_Rotation              = 6;        % [-]           number of rotations considered
 SteadyStateFile         = 'SteadyStatesOptimusFAST.mat';
 Info                    = 'Created by RunSteadyStateCalculation.m of example IEA15MW_09.'; 
@@ -40,7 +40,7 @@ ManipulateTXTFile([SimulationName,'.fst'],'580   TMax','120   TMax');
 %ManipulateTXTFile('ROSCO_v2d6.IN','1 ! FlagLAC','0 ! FlagLAC');
 
 if AdjustSteadyStatesFlag
-	load(SteadyStateFile,'v_0','theta','Omega','x_T');
+	load(SteadyStateFile,'v_0','theta','Omega','x_T','TdpsSS','PtfSurge','PtfSway','PtfHeave','PtfRoll','PtfPitch','PtfYaw');
 end
 
 %% Processing: run simulations
@@ -68,17 +68,39 @@ for i_HWindSpeed    = 1:n_HWindSpeed
 
         % Adjust the ElastoDyn File
         if AdjustSteadyStatesFlag
-            MyBlPitch   = num2str(0.0001 + rad2deg  (interp1(v_0,theta,HWindSpeed)),'%5.4f');
-            MyRotSpeed  = num2str(0.0001 + radPs2rpm(interp1(v_0,Omega,HWindSpeed)),'%5.4f');
-            MyTTDspFA   = num2str(0.0001  +         (interp1(v_0,x_T  ,HWindSpeed)),'%5.4f');
+            MyBlPitch   = num2str(0.0001  + rad2deg  (interp1(v_0,theta,HWindSpeed)),'%5.4f');
+            MyRotSpeed  = num2str(0.0001  + radPs2rpm(interp1(v_0,Omega,HWindSpeed)),'%5.4f');
+            MyTTDspFA   = num2str(0.0001  +          (interp1(v_0,x_T  ,HWindSpeed)),'%5.4f');
+            MyTTDspSS   = num2str(0.0001  +          (interp1(v_0,TdpsSS  ,HWindSpeed)),'%5.4f');
+            MyPtfmSurge = num2str(0.0001  +          (interp1(v_0,PtfSurge  ,HWindSpeed)),'%5.4f');
+            MyPtfmSway  = num2str(0.0001  +          (interp1(v_0,PtfSway  ,HWindSpeed)),'%5.4f');
+            MyPtfmHeave = num2str(0.0001  +          (interp1(v_0,PtfHeave  ,HWindSpeed)),'%5.4f');
+            MyPtfmRoll  = num2str(0.0001   +          (interp1(v_0,PtfRoll  ,HWindSpeed)),'%5.4f');
+            MyPtfmPitch = num2str(0.0001  +          (interp1(v_0,PtfPitch  ,HWindSpeed)),'%5.4f');
+            MyPtfmYaw   = num2str(0.0001    +          (interp1(v_0,PtfYaw  ,HWindSpeed)),'%5.4f');
         else
-            MyBlPitch   = num2str(0.9875);
+            MyBlPitch   = num2str(7.9875);
             MyRotSpeed  = num2str(7.85);
             MyTTDspFA   = num2str(-0.2754);
-        end               
+            MyTTDspSS   = num2str(-0.01754);
+            MyPtfmSurge = num2str(0.0584);
+            MyPtfmSway  = num2str(0.0583);
+            MyPtfmHeave = num2str(.0582);
+            MyPtfmRoll  = num2str(0.0589);
+            MyPtfmPitch = num2str(-1.589);
+            MyPtfmYaw   = num2str(0.0581);
+        end              
         ManipulateTXTFile(EDFile,'MyBlPitch', MyBlPitch);
         ManipulateTXTFile(EDFile,'MyRotSpeed',MyRotSpeed);
-        ManipulateTXTFile(EDFile,'MyTTDspFA', MyTTDspFA);                 
+        ManipulateTXTFile(EDFile,'MyTTDspFA', MyTTDspFA);  
+        ManipulateTXTFile(EDFile,'MyTTDspSS', MyTTDspSS); 
+        ManipulateTXTFile(EDFile,'MyPtfmSurge', MyPtfmSurge); 
+        ManipulateTXTFile(EDFile,'MyPtfmSway', MyPtfmSway); 
+        ManipulateTXTFile(EDFile,'MyPtfmHeave', MyPtfmHeave); 
+        ManipulateTXTFile(EDFile,'MyPtfmRoll', MyPtfmRoll); 
+        ManipulateTXTFile(EDFile,'MyPtfmPitch', MyPtfmPitch); 
+        ManipulateTXTFile(EDFile,'MyPtfmYaw', MyPtfmYaw); 
+        
 
         % Run FB 
         dos([FASTexeFile,' ',SimulationName,'.fst']);
@@ -93,6 +115,13 @@ for i_HWindSpeed    = 1:n_HWindSpeed
         ManipulateTXTFile(EDFile,MyBlPitch,'MyBlPitch');
         ManipulateTXTFile(EDFile,MyRotSpeed,'MyRotSpeed');
         ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspFA');
+        ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspSS');
+        ManipulateTXTFile(EDFile,MyPtfmSurge,'MyPtfmSurge');
+        ManipulateTXTFile(EDFile,MyPtfmSway,'MyPtfmSway');
+        ManipulateTXTFile(EDFile,MyPtfmHeave,'MyPtfmHeave');
+        ManipulateTXTFile(EDFile,MyPtfmRoll,'MyPtfmRoll');
+        ManipulateTXTFile(EDFile,MyPtfmPitch,'MyPtfmPitch');
+        ManipulateTXTFile(EDFile,MyPtfmYaw,'MyPtfmYaw');
     end
 end
 
@@ -115,12 +144,22 @@ Omega           = NaN(1,n_HWindSpeed);
 theta           = NaN(1,n_HWindSpeed);
 x_T             = NaN(1,n_HWindSpeed);
 M_g             = NaN(1,n_HWindSpeed);
-GenPwr          = NaN(1,n_HWindSpeed);
+TdpsSS          = NaN(1,n_HWindSpeed);
+PtfSurge        = NaN(1,n_HWindSpeed);
+PtfSway         = NaN(1,n_HWindSpeed);
+PtfHeave        = NaN(1,n_HWindSpeed);
+PtfRoll         = NaN(1,n_HWindSpeed);
+PtfPitch        = NaN(1,n_HWindSpeed);
+PtfYaw          = NaN(1,n_HWindSpeed);
+
+
+
 
 % allocation of evaluation values
 STD_Omega       = NaN(1,n_HWindSpeed);
 STD_x_T         = NaN(1,n_HWindSpeed);
 STD_GenPwr      = NaN(1,n_HWindSpeed);
+STD_PtfmPitch   = NaN(1,n_HWindSpeed); 
 RotSpeedCell    = cell(1,n_HWindSpeed);
 TTDspFACell     = cell(1,n_HWindSpeed);
 
@@ -148,11 +187,18 @@ for i_HWindSpeed = 1:n_HWindSpeed
     Omega(i_HWindSpeed)     = rpm2radPs(mean(FB.RotSpeed (Considered)));
     x_T(i_HWindSpeed)       =          (mean(FB.TTDspFA  (Considered)));
     GenPwr(i_HWindSpeed)    =          (mean(FB.GenPwr   (Considered)));
-    
+    TdpsSS(i_HWindSpeed)    =          (mean(FB.TTDspSS  (Considered)));
+    PtfSurge(i_HWindSpeed)  =          (mean(FB.PtfmSurge(Considered)));
+    PtfSway(i_HWindSpeed)   =          (mean(FB.PtfmSway(Considered)));
+    PtfHeave(i_HWindSpeed)  =          (mean(FB.PtfmHeave(Considered)));
+    PtfRoll(i_HWindSpeed)   =          (mean(FB.PtfmRoll(Considered)));
+    PtfPitch(i_HWindSpeed)  =          (mean(FB.PtfmPitch(Considered)));
+    PtfYaw(i_HWindSpeed)    =          (mean(FB.PtfmYaw(Considered)));
 	% Calculate standard deviation
     STD_Omega(i_HWindSpeed)	= rpm2radPs(std(FB.RotSpeed  (Considered)));
     STD_x_T(i_HWindSpeed)	=          (std(FB.TTDspFA   (Considered)));
     STD_GenPwr(i_HWindSpeed)=          (std(FB.GenPwr    (Considered)));
+    STD_PtfmPitch(i_HWindSpeed)=       (std(FB.PtfmPitch (Considered)));
     
     % Store time signals, if requested
     if PlotTimeSignalsFlag
@@ -164,7 +210,7 @@ end
 
 % Save if requested
 if SaveFlag
-    save(SteadyStateFile,'v_0','theta','Omega','x_T','M_g','GenPwr','Info');
+    save(SteadyStateFile,'v_0','theta','Omega','x_T','TdpsSS','PtfSurge','PtfSway','PtfHeave','PtfRoll','PtfPitch','PtfYaw','Info');
 end
 
 % Plot config

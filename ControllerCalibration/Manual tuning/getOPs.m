@@ -10,8 +10,10 @@ for iOP=1:nOP
     theta(iOP) = SteadyStates.theta(index);
 end
 
+theta(end + 1) = deg2rad(90);
+
 %Gain scheduling 
-RefGain  = [0.00050 0.0040];
+RefGain  = [0.001500 0.006];
 RefTheta = [min(theta) max(theta)]; 
 kp       = interp1(RefTheta,RefGain,theta);
 Ti       = 10;
