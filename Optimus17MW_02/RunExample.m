@@ -1,11 +1,7 @@
-% LAC Test IEA15MW_03:  IEA 15 MW + Realistic wind preview
-% Purpose:
-% Here, we use a realistic wind preview to compare the behaviour with the
-% platform damper on and off
-% Result:
-% 
 % Authors:
 % David Schlipf, Feng Guo
+
+% Modified to load steady states 
 % Copyright (c) 2022 Flensburg University of Applied Sciences, WETI
 
 %% Setup
@@ -25,6 +21,35 @@ if ~exist('SimulationResultsGust','dir')
     mkdir SimulationResultsGust
 end
 
+% Load steady states and ajust initial conditions
+HWindSpeed              = 18; % Has to match gust wnd file
+SteadyStateFile         = 'SteadyStatesOptimusFAST.mat';
+EDFile                  = 'IEA-15-255-RWT-UMaineSemi_ElastoDyn.dat';
+load(SteadyStateFile,'v_0','theta','Omega','x_T','TdpsSS','PtfSurge','PtfSway','PtfHeave','PtfRoll','PtfPitch','PtfYaw');
+MyBlPitch   = num2str(0.0001  + rad2deg  (interp1(v_0,theta,HWindSpeed)),'%5.4f');
+MyRotSpeed  = num2str(0.0001  + radPs2rpm(interp1(v_0,Omega,HWindSpeed)),'%5.4f');
+MyTTDspFA   = num2str(0.0001  +          (interp1(v_0,x_T  ,HWindSpeed)),'%5.4f');
+MyTTDspSS   = num2str(0.0001  +          (interp1(v_0,TdpsSS  ,HWindSpeed)),'%5.4f');
+MyPtfmSurge = num2str(0.0001  +          (interp1(v_0,PtfSurge  ,HWindSpeed)),'%5.4f');
+MyPtfmSway  = num2str(0.0001  +          (interp1(v_0,PtfSway  ,HWindSpeed)),'%5.4f');
+MyPtfmHeave = num2str(0.0001  +          (interp1(v_0,PtfHeave  ,HWindSpeed)),'%5.4f');
+MyPtfmRoll  = num2str(0.0001  +          (interp1(v_0,PtfRoll  ,HWindSpeed)),'%5.4f');
+MyPtfmPitch = num2str(0.0001  +          (interp1(v_0,PtfPitch  ,HWindSpeed)),'%5.4f');
+MyPtfmYaw   = num2str(0.0001  +          (interp1(v_0,PtfYaw  ,HWindSpeed)),'%5.4f');
+
+% Change ICs
+ManipulateTXTFile(EDFile,'MyBlPitch', MyBlPitch);
+ManipulateTXTFile(EDFile,'MyRotSpeed',MyRotSpeed);
+ManipulateTXTFile(EDFile,'MyTTDspFA', MyTTDspFA);  
+ManipulateTXTFile(EDFile,'MyTTDspSS', MyTTDspSS); 
+ManipulateTXTFile(EDFile,'MyPtfmSurge', MyPtfmSurge); 
+ManipulateTXTFile(EDFile,'MyPtfmSway', MyPtfmSway); 
+ManipulateTXTFile(EDFile,'MyPtfmHeave', MyPtfmHeave); 
+ManipulateTXTFile(EDFile,'MyPtfmRoll', MyPtfmRoll); 
+ManipulateTXTFile(EDFile,'MyPtfmPitch', MyPtfmPitch); 
+ManipulateTXTFile(EDFile,'MyPtfmYaw', MyPtfmYaw);
+
+
 
 %% Processing: run simulations with gust
 
@@ -42,6 +67,18 @@ end
 
 delete(FASTexeFile)
 delete(FASTmapFile)
+
+% Reset the ElastoDyn file again
+ManipulateTXTFile(EDFile,MyBlPitch,'MyBlPitch');
+ManipulateTXTFile(EDFile,MyRotSpeed,'MyRotSpeed');
+ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspFA');
+ManipulateTXTFile(EDFile,MyTTDspFA,'MyTTDspSS');
+ManipulateTXTFile(EDFile,MyPtfmSurge,'MyPtfmSurge');
+ManipulateTXTFile(EDFile,MyPtfmSway,'MyPtfmSway');
+ManipulateTXTFile(EDFile,MyPtfmHeave,'MyPtfmHeave');
+ManipulateTXTFile(EDFile,MyPtfmRoll,'MyPtfmRoll');
+ManipulateTXTFile(EDFile,MyPtfmPitch,'MyPtfmPitch');
+ManipulateTXTFile(EDFile,MyPtfmYaw,'MyPtfmYaw');
 
 % read in data
 FB_Gust     = ReadFASTbinaryIntoStruct(FASTresultFile);

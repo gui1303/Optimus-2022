@@ -13,7 +13,7 @@ end
 theta(end + 1) = deg2rad(90);
 
 %Gain scheduling 
-RefGain  = [0.001500 0.006];
+RefGain  = [0.001400 0.005];
 RefTheta = [min(theta) max(theta)]; 
 kp       = interp1(RefTheta,RefGain,theta);
 Ti       = 10;

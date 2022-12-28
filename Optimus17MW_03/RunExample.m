@@ -16,7 +16,7 @@ addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
 % Seeds (can be adjusted, but will provide different results)
-nSample             = 1;                        % [-]           number of stochastic turbulence field samples
+nSample             = 6;                        % [-]           number of stochastic turbulence field samples
 Seed_vec            = [1:nSample];              % [-]           vector of seeds
 
 % Parameters postprocessing (can be adjusted, but will provide different results)

@@ -25,21 +25,21 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 --------------------------- Initial Conditions ---------------------------------
                  0.0   OoPDefl      - Initial out-of-plane blade-tip displacement (meters)
                  0.0   IPDefl       - Initial in-plane blade-tip deflection (meters)
-                 1.0   BlPitch(1)   - Blade 1 initial pitch (degrees)
-                 1.0   BlPitch(2)   - Blade 2 initial pitch (degrees)
-                 1.0   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
+                 MyBlPitch   BlPitch(1)   - Blade 1 initial pitch (degrees)
+                 MyBlPitch   BlPitch(2)   - Blade 2 initial pitch (degrees)
+                 MyBlPitch   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
                  0.0   TeetDefl     - Initial or fixed teeter angle (degrees) [unused for 3 blades]
                  0.0   Azimuth      - Initial azimuth angle for blade 1 (degrees)
-                7.55   RotSpeed     - Initial or fixed rotor speed (rpm)
+                 MyRotSpeed   RotSpeed     - Initial or fixed rotor speed (rpm)
                  0.0   NacYaw       - Initial or fixed nacelle-yaw angle (degrees)
-                 0.0   TTDspFA      - Initial fore-aft tower-top displacement (meters)
-                 0.0   TTDspSS      - Initial side-to-side tower-top displacement (meters)
-                 0.0   PtfmSurge    - Initial or fixed horizontal surge translational displacement of platform (meters)
-                 0.0   PtfmSway     - Initial or fixed horizontal sway translational displacement of platform (meters)
-                 0.0   PtfmHeave    - Initial or fixed vertical heave translational displacement of platform (meters)
-                 0.0   PtfmRoll     - Initial or fixed roll tilt rotational displacement of platform (degrees)
-                 0.0   PtfmPitch    - Initial or fixed pitch tilt rotational displacement of platform (degrees)
-                 0.0   PtfmYaw      - Initial or fixed yaw rotational displacement of platform (degrees)
+                 MyTTDspFA   TTDspFA      - Initial fore-aft tower-top displacement (meters)
+                 MyTTDspFA   TTDspSS      - Initial side-to-side tower-top displacement (meters)
+                 MyPtfmSurge   PtfmSurge    - Initial or fixed horizontal surge translational displacement of platform (meters)
+                 MyPtfmSway   PtfmSway     - Initial or fixed horizontal sway translational displacement of platform (meters)
+                 MyPtfmHeave   PtfmHeave    - Initial or fixed vertical heave translational displacement of platform (meters)
+                 MyPtfmRoll   PtfmRoll     - Initial or fixed roll tilt rotational displacement of platform (degrees)
+                 MyPtfmPitch   PtfmPitch    - Initial or fixed pitch tilt rotational displacement of platform (degrees)
+                 MyPtfmYaw   PtfmYaw      - Initial or fixed yaw rotational displacement of platform (degrees)
 --------------------------- Turbine Configuration ------------------------------
                    3   NumBl        - Number of blades (-)
               127.50   TipRad       - The distance from the rotor apex to the blade tip (meters)
@@ -132,66 +132,18 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 "Tip2Twr2"                          - Blade 2 tip-to-tower clearance estimate. When the tip of blade is bove the yaw bearing, it is computed as the absolute distance from the yaw bearing to the blade tip
 "Tip2Twr3"                          - Blade 3 tip-to-tower clearance estimate. Please note that you should reduce this value by the tower radius to obtain the actual tower clearance (m)   
 
-"RootFxb1"                          - Blade 1 flapwise shear force at the blade root Directed along the xb1-axis (kN) 
-"RootFyb1"                          - Blade 1 edgewise shear force at the blade root Directed along the yb1-axis (kN) 
-"RootFzb1"                          - Blade 1 axial force at the blade root Directed along the zc,1- and zb,1-axes (kN) 
-"RootMEdg1"                         - Blade 1 edgewise moment (i.e., the moment caused by edgewise forces) at the blade root About the xb1-axis (kN·m) 
-"RootMFlp1"                         - Blade 1 flapwise moment (i.e., the moment caused by flapwise forces) at the blade root About the yb1-axis (kN·m) 
-"RootMzb1"                          - Blade 1 pitching moment at the blade root About the zc,1- and zb,1-axes (kN·m) 
-
- 
-
-"RootFxc1"                          - Out-of-plane shear forces at the root of blade 1 
-"RootFyc1"                          - In-plane shear forces at the root of blade 1 
-"RootFzc1"
-"RootMzc1"
-"RootMzc2"
-"RootMzc3"
-"RootMIP1"                          - In-plane bending moment at the root of blade 1 
-"RootMOoP1"                         - Out-of-plane bending moment at the root of blade 1  
-
-
-"RotThrust"                         - LSS thrust force (this is constant along the shaftand is equivalent to the rotor thrust force) 
-"LSShftFya"                         - Rotating LSS shear force (this is constant along the shaft) 
-"LSShftFza"                         - Rotating LSS shear force (this is constant along the shaft) 
-"LSShftMxa"                         - LSS torque (this is constant along the shaft and is equivalent to the rotor torque) 
-"LSSTipMya"                         - Rotating LSS bending moment at the shaft tip (teeter pin for two-bladed turbines, apex of rotation for three-bladed turbines) 
-"LSSTipMza"                         - Rotating LSS bending moment at the shaft tip (teeter pin for two-bladed turbines, apex of rotation for three-bladed turbines)  
-
-
-"LSShftFys"                         - Nonrotating low-speed shaft shear force (this is constant along the shaft) Directed along the ys-axis (kN) 
-"LSShftFzs"                         - Nonrotating low-speed shaft shear force (this is constant along the shaft) Directed along the zs-axis (kN) 
-"LSSTipMys"                         - Nonrotating low-speed shaft bending moment at the shaft tip About the ys-axis (kN·m) 
-"LSSTipMzs"                         - Nonrotating low-speed shaft bending moment at the shaft tip About the zs-axis (kN·m) 
-
-
-"YawBrFxp"                          - Fore-aft shear forces at the top of the tower (not rotating with nacelle yaw) (kN)
-"YawBrFyp"                          - Side-to-side shear force at the top of the tower (not rotating with nacelle yaw) (kN)
-"YawBrFzp"                          - Vertical forces at the top of the tower (not rotating with nacelle yaw) (kN)
-"YawBrMxp"                          - Side-to-side bending moment at the top of the tower (not rotating with nacelle yaw) (kN·m)
-"YawBrMyp"                          - Fore-aft bending moment at the top of the tower (not rotating with nacelle yaw) (kN·m)
-"YawBrMzp"                          - Yaw moment at the top of the tower (not rotating with nacelle yaw) (kN·m)
-"YawBrRDyt"
-
-"NcIMUTAxs"                         - Nacelle translational acceleration (absolute) directed along the xs-axis (m/sec^2)
-"NcIMUTAys"                         - Nacelle translational acceleration (absolute) directed along the ys-axis (m/sec^2)
-"NcIMUTAzs"                         - Nacelle translational acceleration (absolute) directed along the zs-axis (m/sec^2)
-
-"TwrBsFxt"                          - Fore-aft shear force at the base of the tower (kN)
-"TwrBsFyt"                          - Side-to-side shear forces at the base of the tower (kN)
-"TwrBsFzt"                          - Vertical force at the base of the tower  (kN)
-"TwrBsMxt"                          - Side-to-side bending moment at the base of the tower (kN·m)
-"TwrBsMyt"                          - Fore-aft bending moment at the base of the tower (kN·m)
-"TwrBsMzt"                          - Yaw moment at the base of the tower (kN·m)
-
- 
-
 "PtfmSurge"                        - Platform horizontal surge (translational) displacement directed along the xi-axis (m)
 "PtfmSway"                         - Platform horizontal sway (translational) displacement directed along the yi-axis (m)
 "PtfmHeave"                        - Platform horizontal heave (translational) displacement directed along the zi-axis (m)
 "PtfmRoll"                         - Platform roll tilt angular (rotational) displacement about the xi-axis (deg)
 "PtfmPitch"                        - Platform pitch tilt angular (rotational) displacement about the yi-axis (deg)
 "PtfmYaw"                          - Platform yaw tilt angular (rotational) displacement about the zi-axis (deg)
+
+"TTDspSS"
+"GenSpeed"
+"RotTorq"
+"TwrBsMyt"
+"TTDspFA"
 END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
 ================================================================================
 12345678901234567890123456789012345678901234567890123456789012345678901234567890

@@ -75,9 +75,9 @@ for i_HWindSpeed    = 1:n_HWindSpeed
             MyPtfmSurge = num2str(0.0001  +          (interp1(v_0,PtfSurge  ,HWindSpeed)),'%5.4f');
             MyPtfmSway  = num2str(0.0001  +          (interp1(v_0,PtfSway  ,HWindSpeed)),'%5.4f');
             MyPtfmHeave = num2str(0.0001  +          (interp1(v_0,PtfHeave  ,HWindSpeed)),'%5.4f');
-            MyPtfmRoll  = num2str(0.0001   +          (interp1(v_0,PtfRoll  ,HWindSpeed)),'%5.4f');
+            MyPtfmRoll  = num2str(0.0001  +          (interp1(v_0,PtfRoll  ,HWindSpeed)),'%5.4f');
             MyPtfmPitch = num2str(0.0001  +          (interp1(v_0,PtfPitch  ,HWindSpeed)),'%5.4f');
-            MyPtfmYaw   = num2str(0.0001    +          (interp1(v_0,PtfYaw  ,HWindSpeed)),'%5.4f');
+            MyPtfmYaw   = num2str(0.0001  +          (interp1(v_0,PtfYaw  ,HWindSpeed)),'%5.4f');
         else
             MyBlPitch   = num2str(7.9875);
             MyRotSpeed  = num2str(7.85);

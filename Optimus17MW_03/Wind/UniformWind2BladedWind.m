@@ -8,7 +8,7 @@ FileName = 'UniformConstant_URef_18';
 %% Preprocessing
 % time
 T           = 40;                   % [s]   simulation length
-dt          = 1/80;               	% [s]   simulation time step
+dt          = 1/40;               	% [s]   simulation time step
 
 % wind
 V_hub       = 18;                   % [m/s] mean wind speed at hub height 
