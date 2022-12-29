@@ -8,7 +8,7 @@ FileName = 'UniformStep_URef_18';
 %% Preprocessing
 % time
 T           = 630;                   % [s]   simulation length
-dt          = 1/80;               	% [s]   simulation time step
+dt          = 1/40;               	% [s]   simulation time step
 
 % wind
 V_hub       = 18;                   % [m/s] mean wind speed at hub height 
@@ -25,7 +25,7 @@ plot(t,u)
 
 
 % Some variables required in the Type 4 wind: Bladed style
-HubHeight   = 150;
+HubHeight   = 146.75;
 dy          = 150;
 dz          = 150;
 Ny          = 3;

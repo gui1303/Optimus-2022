@@ -25,21 +25,21 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 --------------------------- Initial Conditions ---------------------------------
                  0.0   OoPDefl      - Initial out-of-plane blade-tip displacement (meters)
                  0.0   IPDefl       - Initial in-plane blade-tip deflection (meters)
-                 MyBlPitch   BlPitch(1)   - Blade 1 initial pitch (degrees)
-                 MyBlPitch   BlPitch(2)   - Blade 2 initial pitch (degrees)
-                 MyBlPitch   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
+                 0.0001   BlPitch(1)   - Blade 1 initial pitch (degrees)
+                 0.0001   BlPitch(2)   - Blade 2 initial pitch (degrees)
+                 0.0001   BlPitch(3)   - Blade 3 initial pitch (degrees) [unused for 2 blades]
                  0.0   TeetDefl     - Initial or fixed teeter angle (degrees) [unused for 3 blades]
                  0.0   Azimuth      - Initial azimuth angle for blade 1 (degrees)
-                 MyRotSpeed   RotSpeed     - Initial or fixed rotor speed (rpm)
+                 4.6562   RotSpeed     - Initial or fixed rotor speed (rpm)
                  0.0   NacYaw       - Initial or fixed nacelle-yaw angle (degrees)
-                 MyTTDspFA   TTDspFA      - Initial fore-aft tower-top displacement (meters)
-                 MyTTDspSS   TTDspSS      - Initial side-to-side tower-top displacement (meters)
-                 MyPtfmSurge   PtfmSurge    - Initial or fixed horizontal surge translational displacement of platform (meters)
-                 MyPtfmSway   PtfmSway     - Initial or fixed horizontal sway translational displacement of platform (meters)
-                 MyPtfmHeave   PtfmHeave    - Initial or fixed vertical heave translational displacement of platform (meters)
-                 MyPtfmRoll   PtfmRoll     - Initial or fixed roll tilt rotational displacement of platform (degrees)
-                 MyPtfmPitch   PtfmPitch    - Initial or fixed pitch tilt rotational displacement of platform (degrees)
-                 MyPtfmYaw   PtfmYaw      - Initial or fixed yaw rotational displacement of platform (degrees)
+                 0.4348   TTDspFA      - Initial fore-aft tower-top displacement (meters)
+                 -0.0035   TTDspSS      - Initial side-to-side tower-top displacement (meters)
+                 21.4436   PtfmSurge    - Initial or fixed horizontal surge translational displacement of platform (meters)
+                 -0.0320   PtfmSway     - Initial or fixed horizontal sway translational displacement of platform (meters)
+                 -37.2362   PtfmHeave    - Initial or fixed vertical heave translational displacement of platform (meters)
+                 0.3222   PtfmRoll     - Initial or fixed roll tilt rotational displacement of platform (degrees)
+                 3.7077   PtfmPitch    - Initial or fixed pitch tilt rotational displacement of platform (degrees)
+                 0.4659   PtfmYaw      - Initial or fixed yaw rotational displacement of platform (degrees)
 --------------------------- Turbine Configuration ------------------------------
                    3   NumBl        - Number of blades (-)
               127.50   TipRad       - The distance from the rotor apex to the blade tip (meters)

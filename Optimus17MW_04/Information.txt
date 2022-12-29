@@ -1,1 +1,1 @@
-New rotor with constant wind and modified controller
+New rotor with wind step and modified controller

@@ -22,7 +22,7 @@ if ~exist('SimulationResultsStep','dir')
 end
 
 % Load steady states and ajust initial conditions
-HWindSpeed              = 18; % Has to match step wnd file
+HWindSpeed              = 20; % Has to match step wnd file
 SteadyStateFile         = 'SteadyStatesOptimusFAST.mat';
 EDFile                  = 'IEA-15-255-RWT-UMaineSemi_ElastoDyn.dat';
 load(SteadyStateFile,'v_0','theta','Omega','x_T','TdpsSS','PtfSurge','PtfSway','PtfHeave','PtfRoll','PtfPitch','PtfYaw');
