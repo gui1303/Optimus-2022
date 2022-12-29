@@ -33,7 +33,7 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
                  MyRotSpeed   RotSpeed     - Initial or fixed rotor speed (rpm)
                  0.0   NacYaw       - Initial or fixed nacelle-yaw angle (degrees)
                  MyTTDspFA   TTDspFA      - Initial fore-aft tower-top displacement (meters)
-                 MyTTDspFA   TTDspSS      - Initial side-to-side tower-top displacement (meters)
+                 -0.1173   TTDspSS      - Initial side-to-side tower-top displacement (meters)
                  MyPtfmSurge   PtfmSurge    - Initial or fixed horizontal surge translational displacement of platform (meters)
                  MyPtfmSway   PtfmSway     - Initial or fixed horizontal sway translational displacement of platform (meters)
                  MyPtfmHeave   PtfmHeave    - Initial or fixed vertical heave translational displacement of platform (meters)
