@@ -18,7 +18,7 @@ PlotTimeSignalsFlag     = true;     % [true/false]  flag to plot time results (m
 AdjustSteadyStatesFlag  = true;     % [true/false]  flag to load steady states (set false in the first iteration)
 HWindSpeed_vec          = 4:0.5:30;   % [m/s]         range of wind speeds (operation points)
 n_Rotation              = 6;        % [-]           number of rotations considered
-SteadyStateFile         = 'SteadyStatesOptimusFAST.mat';
+SteadyStateFile         = 'SteadyStatesOptimusFASTOldPtfm.mat';
 Info                    = 'Created by RunSteadyStateCalculation'; 
 
 % Files (should not be be changed)
@@ -226,15 +226,15 @@ hold on; grid on; box on
 plot(v_0,radPs2rpm(STD_Omega),'.-','MarkerSize',MyMarkerSize);
 ylabel({'STD(RotSpeed)';'[rpm]'});
 
-MyAxes(2) = subplot(n,1,2);
-hold on; grid on; box on
-plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
-ylabel({'STD(TTDspFA)';'[m]'});
-
 % MyAxes(2) = subplot(n,1,2);
 % hold on; grid on; box on
-% plot(v_0,STD_GenPwr,'.-','MarkerSize',MyMarkerSize);
-% ylabel({'STD(GenPwr)';'[kW]'});
+% plot(v_0,STD_x_T,'.-','MarkerSize',MyMarkerSize);
+% ylabel({'STD(TTDspFA)';'[m]'});
+
+MyAxes(2) = subplot(n,1,2);
+hold on; grid on; box on
+plot(v_0,STD_GenPwr,'.-','MarkerSize',MyMarkerSize);
+ylabel({'STD(GenPwr)';'[kW]'});
 
 xlabel('wind speed [m/s]')
 linkaxes(MyAxes,'x');
