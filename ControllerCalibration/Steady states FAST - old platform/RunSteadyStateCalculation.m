@@ -258,16 +258,16 @@ MyAxes(3) = subplot(n,1,3);
 hold on; grid on; box on
 plot(v_0,radPs2rpm(Omega),'.-','MarkerSize',MyMarkerSize);
 ylabel({'RotSpeed';'[rpm]'});
+% 
+% MyAxes(4) = subplot(n,1,4);
+% hold on; grid on; box on
+% plot(v_0,x_T,'.-','MarkerSize',MyMarkerSize);
+% ylabel({'TTDspFA';'[m]'});
 
 MyAxes(4) = subplot(n,1,4);
 hold on; grid on; box on
-plot(v_0,x_T,'.-','MarkerSize',MyMarkerSize);
-ylabel({'TTDspFA';'[m]'});
-
-% MyAxes(4) = subplot(n,1,4);
-% hold on; grid on; box on
-% plot(v_0,GenPwr,'.-','MarkerSize',MyMarkerSize);
-% ylabel({'Generator power';'[kW]'});
+plot(v_0,GenPwr,'.-','MarkerSize',MyMarkerSize);
+ylabel({'Generator power';'[kW]'});
 
 xlabel('wind speed [m/s]')
 linkaxes(MyAxes,'x');
