@@ -22,7 +22,7 @@ if ~exist('SimulationResultsStep','dir')
 end
 
 % Load steady states and ajust initial conditions
-HWindSpeed              = 21; % Has to match step wnd file
+HWindSpeed              = 20; % Has to match step wnd file
 SteadyStateFile         = 'SteadyStatesOptimusFAST.mat';
 EDFile                  = 'IEA-15-255-RWT-UMaineSemi_ElastoDyn.dat';
 load(SteadyStateFile,'v_0','theta','Omega','x_T','TdpsSS','PtfSurge','PtfSway','PtfHeave','PtfRoll','PtfPitch','PtfYaw');
@@ -85,46 +85,76 @@ FB_Gust     = ReadFASTbinaryIntoStruct(FASTresultFile);
 
 
 % Plot time results
-figure('Name','Time results for wind')
-hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.Wind1VelX,'Color',[0.8500 0.3250 0.0980]);
-ylabel('Wind velocity [m/s]');
-xlabel('time [s]')
-xlim([0 630]);
-hold off
+% figure('Name','Time results for wind')
+% hold on; grid on; box on
+% plot(FB_Gust.Time,FB_Gust.Wind1VelX,'Color',[0.8500 0.3250 0.0980]);
+% ylabel('Wind velocity [m/s]');
+% xlabel('time [s]')
+% xlim([0 630]);
+% hold off
+% 
+% figure('Name','Time results for rotor speed')
+% hold on; grid on; box on
+% plot(FB_Gust.Time,FB_Gust.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
+% ylabel('Rotor speed');
+% xlabel('time [s]')
+% xlim([0 630]);
+% hold off
+%     
+% figure('Name','Time results for platform pitch')
+% hold on; grid on; box on
+% plot(FB_Gust.Time,FB_Gust.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
+% ylabel('Platform pitch [deg]');
+% xlabel('time [s]')
+% xlim([0 630]);
+% hold off
+%     
+% figure('Name','Time results for blade pitch')
+% hold on; grid on; box on
+% plot(FB_Gust.Time,FB_Gust.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
+% ylabel('Blade pitch [deg]');
+% xlabel('time [s]')
+% xlim([0 630]);
+% hold off
+%     
+% figure('Name','Time results for electric power')
+% hold on; grid on; box on
+% plot(FB_Gust.Time,FB_Gust.GenPwr/1000,'Color',[0.8500 0.3250 0.0980]);
+% ylabel('Electric power [MW]');
+% xlabel('time [s]')
+% xlim([0 630]);
+% hold off
+    
+ScreenSize = get(0,'ScreenSize');
+figure('Name','Simulation results','position',[.1 .1 .8 .8].*ScreenSize([3,4,3,4]))
+n = 5;
 
-figure('Name','Time results for rotor speed')
+MyAxes(1) = subplot(n,1,1);
 hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.RotSpeed,'Color',[0.8500 0.3250 0.0980]);
-ylabel('Rotor speed');
-xlabel('time [s]')
-xlim([0 630]);
-hold off
-    
-figure('Name','Time results for platform pitch')
+plot(FB_Gust.Time,       FB_Gust.Wind1VelX);
+ylabel('[m/s]');
+
+MyAxes(2) = subplot(n,1,2);
 hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.PtfmPitch,'Color',[0.8500 0.3250 0.0980]);
-ylabel('Platform pitch [deg]');
-xlabel('time [s]')
-xlim([0 630]);
-hold off
-    
-figure('Name','Time results for blade pitch')
+plot(FB_Gust.Time,       FB_Gust.BldPitch1, 'r');
+ylabel('BldPitch1 [deg]');
+
+MyAxes(3) = subplot(n,1,3);
 hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.BldPitch1,'Color',[0.8500 0.3250 0.0980]);
-ylabel('Blade pitch [deg]');
-xlabel('time [s]')
-xlim([0 630]);
-hold off
-    
-figure('Name','Time results for electric power')
+plot(FB_Gust.Time,       FB_Gust.GenTq, 'r');
+ylabel('GenTq [kNm]');
+
+MyAxes(4) = subplot(n,1,4);
 hold on; grid on; box on
-plot(FB_Gust.Time,FB_Gust.GenPwr/1000,'Color',[0.8500 0.3250 0.0980]);
-ylabel('Electric power [MW]');
+plot(FB_Gust.Time,       FB_Gust.RotSpeed, 'r');
+ylabel('RotSpeed [rpm]');
+
+MyAxes(5) = subplot(n,1,5);
+hold on; grid on; box on
+plot(FB_Gust.Time,       FB_Gust.GenPwr/1e3, 'r');
+ylabel('GenPwr [MW]');
+
 xlabel('time [s]')
-xlim([0 630]);
-hold off
-    
-    
+linkaxes(MyAxes,'x');  
 
  

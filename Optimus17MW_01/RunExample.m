@@ -9,7 +9,7 @@ clc;
 addpath('..\MatlabFunctions')
 addpath('..\MatlabFunctions\AnalyticlModel')
 
-vWindSpeed          = [4 14 30];
+vWindSpeed          = [15];
 NumSim              = length(vWindSpeed);
 vGenPwr             = NaN(NumSim,1);
 
